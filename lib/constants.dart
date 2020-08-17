@@ -1,0 +1,1 @@
+const baseUrl= 'https://poolinspection.beedevstaging.com/api';

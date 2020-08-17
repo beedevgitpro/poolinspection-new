@@ -1,0 +1,8 @@
+{
+  "base_url": "http://mconew.beedevstaging.com/api",
+  "api_base_url": "http://poolinspection.beedevstaging.com/developer/public/api/",
+  "google_maps_key": "AIzaSyB1F-b6QOA8S-rKf3niLrUcY71cGGVdiZ4",
+  "api_question_image":"http://poolinspection.beedevstaging.com/",
+  "api_image_url": "http://poolinspection.beedevstaging.com/developer/public/uploads/inspector/photos/"
+}
+
