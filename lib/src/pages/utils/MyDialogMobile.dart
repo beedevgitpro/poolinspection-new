@@ -19,7 +19,8 @@ class MyDialogMobile extends StatefulWidget {
   final int i;
   final qlist;
   final int indexofrectiornoncomp;
-  MyDialogMobile(this.i,this._inspectionController,this.indexofrectiornoncomp,this.question,this.qlist);
+  final int entryIndex;
+  MyDialogMobile(this.entryIndex,this.i,this._inspectionController,this.indexofrectiornoncomp,this.question,this.qlist);
   @override
   _MyDialogMobileState createState() => new _MyDialogMobileState(i,_inspectionController,indexofrectiornoncomp,question);
 }
@@ -182,7 +183,7 @@ class _MyDialogMobileState extends State<MyDialogMobile> {
                               {
                                 final pr=ProgressDialog(context);
                                 pr.show();
-                                _inspectionController.getPostQuestions(widget.i,indexofrectiornoncomp, context1,widget.qlist,pr,isDialog:true);
+                                _inspectionController.getPostQuestions(widget.entryIndex,widget.i,indexofrectiornoncomp, context1,widget.qlist,pr,isDialog:true);
                                
                               }
                             },

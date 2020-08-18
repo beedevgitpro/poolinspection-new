@@ -177,7 +177,7 @@ class _InspectionQuestionListState
                                          await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => InspectionQuestion(
+                                                builder: (context) => InspectionQuestion(i,
                                                     _con.questionslist[i], i,_con.questionslist)));
                                                     print('finish questions');
                                                     await refreshId();
@@ -199,7 +199,7 @@ class _InspectionQuestionListState
                                          await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => InspectionQuestion(
+                                                builder: (context) => InspectionQuestion(i,
                                                     _con.questionslist[0], i,_con.questionslist)));
                                                     print('finish questions');
                                                     await refreshId();
@@ -223,7 +223,7 @@ class _InspectionQuestionListState
                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => InspectionQuestion(
+                        builder: (context) => InspectionQuestion(i,
                             _con.questionslist[i], i,_con.questionslist)));
                             isOnline ? await refreshId() : await refreshOfflineId();
                             

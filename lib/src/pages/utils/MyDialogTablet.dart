@@ -23,8 +23,9 @@ class MyDialogTablet extends StatefulWidget {
   var question;
   int i;
   var qlist;
+  int entryIndex;
   final int indexofrectiornoncomp;
-  MyDialogTablet(this.i,this._inspectionController,this.indexofrectiornoncomp,this.question,this.qlist);
+  MyDialogTablet(this.entryIndex,this.i,this._inspectionController,this.indexofrectiornoncomp,this.question,this.qlist);
   @override
   _MyDialogTabletState createState() => new _MyDialogTabletState(i,_inspectionController,indexofrectiornoncomp,question);
 }
@@ -188,7 +189,7 @@ class _MyDialogTabletState extends State<MyDialogTablet> {
                                   {
                                     final pr=ProgressDialog(context);
                                       pr.show();
-                                    _inspectionController.getPostQuestions(widget.i,indexofrectiornoncomp, context,widget.qlist,pr,isDialog:true);
+                                    _inspectionController.getPostQuestions(widget.entryIndex,widget.i,indexofrectiornoncomp, context,widget.qlist,pr,isDialog:true);
                                     // Navigator.pop(context);
                                   }
                                 },
@@ -283,19 +284,12 @@ class _MyDialogTabletState extends State<MyDialogTablet> {
 
                                 ),
                               ),
-                              
-
-
-
                             ]
                         ),
                       ],
                     ),
-
                   ),
                 )
-
-
               ],
             ),
           ),

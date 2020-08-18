@@ -20,8 +20,8 @@ class InspectionQuestion extends StatefulWidget {
   var question;
   int i;
   var questionsList;
-
-  InspectionQuestion(this.question, this.i,this.questionsList);
+  int entryIndex;
+  InspectionQuestion(this.entryIndex,this.question, this.i,this.questionsList);
 
   @override
   _InspectionQuestionState createState() => _InspectionQuestionState();
@@ -466,7 +466,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
                                       { 
                                         final pr=ProgressDialog(context);
                                         pr.show();
-                                        _inspectionController.getPostQuestions(widget.i,index, context,widget.questionsList,pr);
+                                        _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index, context,widget.questionsList,pr);
                                         
                                        
                                       }
@@ -841,7 +841,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
                                             else
                                             {final pr=ProgressDialog(context);
                                             pr.show();
-                                        _inspectionController.getPostQuestions(widget.i,index, context,widget.questionsList,pr);}
+                                        _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index, context,widget.questionsList,pr);}
 
 
                                       },
@@ -1027,7 +1027,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return MyDialogTablet(widget.i,_inspectionController,indexOfRectificationorNonCompliance,widget.question,widget.questionsList);
+        return MyDialogTablet(widget.entryIndex,widget.i,_inspectionController,indexOfRectificationorNonCompliance,widget.question,widget.questionsList);
       },
     );
   }
@@ -1044,7 +1044,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return MyDialogMobile(widget.i,_inspectionController,indexOfRectificationorNonCompliance,widget.question,widget.questionsList);
+        return MyDialogMobile(widget.entryIndex,widget.i,_inspectionController,indexOfRectificationorNonCompliance,widget.question,widget.questionsList);
       },
     );
   }

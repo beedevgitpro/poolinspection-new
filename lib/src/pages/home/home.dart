@@ -32,7 +32,7 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends StateMVC<HomeWidget> {
-  HomeController _con;
+  HomeController _homeController;
   int ax = 0;
   String inspectionType;
   bool _isExpanded=true;
@@ -48,7 +48,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   bool filter = false;
   ConnectionStatusSingleton connectionStatus;
   _HomeWidgetState() : super(HomeController()) {
-    _con = controller;
+    _homeController = controller;
   }
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -180,7 +180,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
 
     if (widget.routeArgument == null) {
       print("afterdrawerrefresh");
-      _con.readCounter().then((onValue) {
+      _homeController.readCounter().then((onValue) {
         setState(() {
           offlineListData = json.decode(onValue.toString());
         });
@@ -219,15 +219,11 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
 
   callDash() async {
     // print(currentUser.token2fa);
-    _con.dashBoardBloc(widget.routeArgument.id).then((onValue) {
+    _homeController.dashBoardBloc(widget.routeArgument.id).then((onValue) {
       setState(() {
         print("onValuehome=" + onValue.toString());
-        _con.listdata = onValue;
+        _homeController.listdata = onValue;
 
-        // if (_con.listdata == 1) {
-        //   Navigator.of(_con.scaffoldKey.currentContext)
-        //       .pushReplacementNamed('/Login');
-        // }
       });
     });
     refreshId();
@@ -241,7 +237,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
           widget.routeArgument == null
               ? userRepo.user.rolesManage
               : widget.routeArgument.role),
-      key: _con.scaffoldKey,
+      key: _homeController.scaffoldKey,
       backgroundColor: config.Colors().scaffoldColor(1),
       appBar: AppBar(
         title: Text("Dashboard",
@@ -256,7 +252,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               Icons.menu,
               color: config.Colors().secondColor(1),
             ),
-            onPressed: () => _con.scaffoldKey.currentState.openDrawer()),
+            onPressed: () => _homeController.scaffoldKey.currentState.openDrawer()),
         actions: <Widget>[
           Image.asset(
             "assets/img/app-iconwhite.jpg",
@@ -265,7 +261,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
           ),
         ],
       ),
-      body: _con.listdata == null
+      body: _homeController.listdata == null
           ? Center(
               child: isOnline
                   ? CircularProgressIndicator()
@@ -278,7 +274,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                           child: buildColumn(context, offlineListData)),
             )
           : RefreshIndicator(
-              onRefresh: refreshId, child: buildColumn(context, _con.listdata)),
+              onRefresh: refreshId, child: buildColumn(context, _homeController.listdata)),
     );
     // : Text(_con.listdata.toString() ?? ""));
   }
@@ -286,13 +282,13 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
 //             future: dashBoardBloc(),
   Future refreshId() async {
     setState(() {
-      _con.fetchData();
+      _homeController.fetchData();
     });
   }
 
   Future refreshOfflineId() async {
     setState(() {
-      _con.readCounter().then((onValue) {
+      _homeController.readCounter().then((onValue) {
         setState(() {
           offlineListData = json.decode(onValue.toString());
         });

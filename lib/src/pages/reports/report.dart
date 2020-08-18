@@ -95,19 +95,16 @@ class _NoticeReportState extends StateMVC<NoticeReport> {
 //                                    // );
 //                                  );
                                 },
-                                trailing: MaterialButton(
+                                trailing: Card(
                                   shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0)),
-                                    onPressed: ()
-                                  {
-
-                                  },
+                                    
                                   color: Colors.blueAccent,
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: Text(
                                         "${DateFormat("yMMMMd").format(DateTime.parse(_con.noticeofcompliant['compliant_report_list'][i]['booking_date_time']))}",
                                         style: TextStyle(
-                                            fontSize: getFontSize(context,0),
+                                            fontSize: getFontSize(context,-2),
                                             fontFamily: "AVENIRLTSTD",
                                             // fontWeight: FontWeight.bold,
                                             color: Colors.white)),

@@ -17,6 +17,7 @@ import 'package:poolinspection/src/pages/inspection/inspectionquestion.dart';
 import 'package:poolinspection/src/pages/utils/customradio.dart';
 import 'package:poolinspection/src/repository/booking_repository.dart'
     as repository;
+import 'package:strings/strings.dart';
 
 class QuestionData {
   String comment;
@@ -205,7 +206,7 @@ class InspectionController extends ControllerMVC {
 
   bool validate = false;
 
-  getPostQuestions(int questionindex,int index,  BuildContext context,qlist,pr,{bool isDialog=false}) { //this new addition of question index can break code for online
+  getPostQuestions(int entryIndex,int questionindex,int index,  BuildContext context,qlist,pr,{bool isDialog=false}) { //this new addition of question index can break code for online
     
     setState(() {
       sampleData.forEach((element) => element.isSelected = false);
@@ -357,15 +358,15 @@ class InspectionController extends ControllerMVC {
              Navigator.of(context).pushNamed("/Certificate",
                  arguments: RouteArgumentCertificate(
                      id: 2, heroTag:"Compliant"));
-
            }
 
            if(postBookingAnswerModel.status.toString()=="non-compliant")
            {
 
-             Navigator.push(
+             Navigator.pushAndRemoveUntil(
                context,
                MaterialPageRoute(builder: (context) => SelectNoticeOrNonCompliant(data.bookingID.toString())),
+               (r)=>r.isFirst
              );
 
            }
@@ -375,20 +376,20 @@ class InspectionController extends ControllerMVC {
             if((questionindex+1)<(qlist.length))
                                        {
                                          
-                                        Navigator.push(context,MaterialPageRoute(builder: (context)=>InspectionQuestion(
+                                        Navigator.push(context,MaterialPageRoute(builder: (context)=>InspectionQuestion(entryIndex,
                                                     qlist[questionindex+1], questionindex+1,qlist)));
                                         }
                                         else
                                         
                                        {
                                          
-                                          for(int i=0; i < (qlist.length);i++)
+                                          for(int i=entryIndex; i < (qlist.length);i++)
                                         Navigator.pop(context);}
            }
            else
            {
      Fluttertoast.showToast(
-         msg: "Status:"+postBookingAnswerModel.status.toString(),
+         msg: "Status:"+capitalize(postBookingAnswerModel.status.toString()),
          toastLength: Toast.LENGTH_SHORT,
          gravity: ToastGravity.BOTTOM,
          timeInSecForIosWeb: 1,
@@ -411,30 +412,11 @@ class InspectionController extends ControllerMVC {
                fontSize: getFontSize(context,-2)
            );
          }
-
-
-
-//    if(postBookingAnswerModel.status.toString()=="notice")
-//     {
-//
-//       Navigator.pushNamedAndRemoveUntil(context,'/Home',(Route<dynamic> route) => false);
-//       Navigator.of(context).pushNamed("/Certificate",
-//           arguments: RouteArgumentCertificate(
-//               id: 4, heroTag:"Notice of Improvement"));
-//
-//     }
-
-       // data.choice.compareTo('2')==true? Navigator.pop(context, true):null;
-
-       // Navigator.pop(context);
-
-
      }
     }
 
 
     );
-    //return context;
   }
 
 
@@ -462,9 +444,6 @@ class InspectionController extends ControllerMVC {
 
   Future<File> writeQuestionCounter(var onValue,String name) async {
     final file = await _localQuestionFile;
-
-    // Write the file
-   // print("writedquestiondone="+onValue.toString());
     return file.writeAsString(onValue.toString());
   }
   Future<String> readQuestionCounter(String bookingId) async {
