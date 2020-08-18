@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:poolinspection/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:poolinspection/src/components/responsive_text.dart';
 import 'package:poolinspection/src/models/generic_response.dart';
@@ -22,7 +21,7 @@ String token;
 
 // Future<UserModel> login(User user) async {
 //   final String url =
-//       '${GlobalConfiguration().getString('api_base_url')}login_api';
+// '$publicBaseUrl'+'login_api';
 //   final client = new http.Client();
 //   final response = await client.post(
 //     url,
@@ -39,7 +38,7 @@ String token;
 Future login(User user,context) async {
 
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}login_api';
+      '$publicBaseUrl'+'login_api';
   final client = new http.Client();
   try {
 
@@ -95,7 +94,7 @@ Future registerInspector(SignUpUser fields,context) async {
   Dio dio = new Dio();
 
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}register_inspector_api';
+      '$publicBaseUrl'+'register_inspector_api';
 
   FormData formData = FormData.fromMap({
     "registration_number": fields.registrationNumber,
@@ -176,7 +175,7 @@ Future addCompanyInspector(SignUpUser fields) async {
 
   print("${company.id} sdsdsdsds");
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}register_inspector_api';
+      '$publicBaseUrl'+'register_inspector_api';
   print(url);
   FormData formData = FormData.fromMap({
     "first_name": fields.firstName,
@@ -213,7 +212,7 @@ Future addCompanyInspector(SignUpUser fields) async {
 Future registerCompany(SignUpUser fields) async {
   Dio dio = new Dio();
   final String url =
-      "https://poolinspection.beedevstaging.com/api/register_company_api";
+      "$baseUrl/register_company_api";
   print("urlofcompanysignup="+url.toString());
   var formData = FormData.fromMap({
     "registration_number": fields.registrationNumber,
@@ -267,7 +266,7 @@ Future<void> logout() async {
 Future<GenericResponse> forgetPassword(String text) async {
   // final String _apiToken = 'api_token=${currentUser}';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}reset_password_request_api';
+      '$publicBaseUrl'+'reset_password_request_api';
   final client = new http.Client();
   final response = await client.post(
     url,
@@ -288,7 +287,7 @@ Future<GenericResponse> forgetPassword(String text) async {
 Future<GenericResponse> updatePassword(User user) async {
   // // final String _apiToken = 'api_token=${currentUser}';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}change_password_api';
+      '$publicBaseUrl'+'change_password_api';
   final client = new http.Client();
   final response = await client.post(
     url,

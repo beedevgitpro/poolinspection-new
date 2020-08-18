@@ -10,7 +10,7 @@ import 'package:poolinspection/src/elements/custom_progress_dialog.dart';
 import 'package:poolinspection/src/helpers/sharedpreferences/userpreferences.dart';
 import 'package:poolinspection/config/app_config.dart' as config;
 import 'package:poolinspection/src/repository/user_repository.dart' as userRepo;
-
+import 'package:poolinspection/constants.dart';
 
 
 class InspectorInvoiceListClass extends StatefulWidget {
@@ -52,7 +52,7 @@ class _InspectorInvoiceListClassState extends State<InspectorInvoiceListClass> {
     try {
       pr.show();
       print("inspectorid"+id.toString());
-      final response = await http.get("https://poolinspection.beedevstaging.com/api/send_inspector_invoice/$id");
+      final response = await http.get("$baseUrl/send_inspector_invoice/$id");
       print("responsee"+response.body.toString());
 
       SelectNonCompliantOrNotice selectNonCompliantOrNotice= selectNonCompliantOrNoticeFromJson(response.body);
@@ -66,7 +66,8 @@ class _InspectorInvoiceListClassState extends State<InspectorInvoiceListClass> {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            backgroundColor: Colors.blueAccent,
+            backgroundColor:
+            Theme.of(context).hintColor,
             textColor: Colors.white,
             fontSize: getFontSize(context,-2)
         );
@@ -98,7 +99,7 @@ class _InspectorInvoiceListClassState extends State<InspectorInvoiceListClass> {
   Future<GetInspectorInvoiceList> createInvoiceList() async {
     try {
       final response = await http.get(
-        'https://poolinspection.beedevstaging.com/api/beedev/inspector_invoice/$userId',
+        '$baseUrl/beedev/inspector_invoice/$userId',
 
       );
       print("hellllo"+response.body.toString());
@@ -122,7 +123,7 @@ class _InspectorInvoiceListClassState extends State<InspectorInvoiceListClass> {
         return Scaffold(
         key: _scaffoldKey,
         backgroundColor: config.Colors().scaffoldColor(1),
-        endDrawer: drawerData(context, userRepo.user.rolesManage),
+        // endDrawer: drawerData(context, userRepo.user.rolesManage),
         appBar: AppBar(
           leading: IconButton(
               icon: Icon(
@@ -142,9 +143,14 @@ class _InspectorInvoiceListClassState extends State<InspectorInvoiceListClass> {
 
           ),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () => _scaffoldKey.currentState.openEndDrawer())
+            // IconButton(
+            //     icon: Icon(Icons.menu),
+            //     onPressed: () => _scaffoldKey.currentState.openEndDrawer())
+            Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            // fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+          )
           ],
         ),
 

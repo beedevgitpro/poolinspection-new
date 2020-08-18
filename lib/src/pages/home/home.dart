@@ -20,7 +20,7 @@ import 'package:poolinspection/src/pages/inspection/inspectionheadinglist.dart';
 import 'package:poolinspection/src/repository/user_repository.dart' as userRepo;
 import 'package:poolinspection/config/app_config.dart' as config;
 import 'package:poolinspection/src/elements/custom_progress_dialog.dart';
-
+import 'package:poolinspection/constants.dart';
 import 'package:strings/strings.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -35,8 +35,9 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   HomeController _con;
   int ax = 0;
   String inspectionType;
+  bool _isExpanded=true;
   var differencedate;
-  String ownerLand='',ownerAddress='',jobNo='';
+  String ownerName='',ownerAddress='',jobNo='';
   int isReinspection;
   bool filtered = false;
   DateTime selectedDate;
@@ -86,7 +87,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
       print("useruseruser" + userID.toString());
       final response = await http
           .get(
-              'https://poolinspection.beedevstaging.com/api/beedev/check_payment_details/$userID')
+              '$baseUrl/beedev/check_payment_details/$userID')
           ;
       print("useruseruser2" + response.body.toString());
       SelectNonCompliantOrNotice checkBankOrCardDetail =
@@ -167,7 +168,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   }
 
   void filterAlert() {
-    // Alert(context: context, title:'Filter',content: ).show();
+
   }
   @override
   void initState() {
@@ -178,7 +179,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
     userRepo.token = "beedev";
 
     if (widget.routeArgument == null) {
-      //this condition will run just after drawer dashboard button press
       print("afterdrawerrefresh");
       _con.readCounter().then((onValue) {
         setState(() {
@@ -197,7 +197,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   }
 
   void connectionChanged(dynamic hasConnection) {
-    //later use
     setState(() {
       connectionStatus.checkConnection().then((val) {
         val ? loadData() : print("not connected");
@@ -353,7 +352,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   Widget buildUpcomingInspections(BuildContext context, data) {
     print(data.length);
     return GestureDetector(
-      
         onPanDown: (_){
           FocusScope.of(context).requestFocus(FocusNode());
         },
@@ -365,19 +363,21 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               padding: const EdgeInsets.symmetric(horizontal:4.0,vertical: 10),
               child: Text("Upcoming Inspections",
                   style: TextStyle(
-                      fontSize: getFontSize(context,2),
+                      fontSize: getFontSize(context,3),
                       fontFamily: "AVENIRLTSD",
                       fontWeight: FontWeight.w700,
                       // fontWeight: FontWeight.bold,
                       color: Color(0xff000000))),
             ),
             data.isEmpty?
-            Text('No Upcoming Inspections',style: TextStyle(
-                      fontSize: getFontSize(context,-2),
-                      fontFamily: "AVENIRLTSD",
-                      fontWeight: FontWeight.w500,
-                      
-                      color: Colors.black54))
+            Center(
+              child: Text('No Upcoming Inspections',style: TextStyle(
+                        fontSize: getFontSize(context,-1),
+                        fontFamily: "AVENIRLTSD",
+                        fontWeight: FontWeight.w500,
+                        
+                        color: Colors.black54)),
+            )
             :
             MediaQuery.of(context).size.width <= 600
                 ? mobileEntryList(data)
@@ -403,19 +403,21 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               contentPadding: EdgeInsets.all(0),
               title:Text('Completed Inspections',
                     style: TextStyle(
-                        fontSize: getFontSize(context,2),
+                        fontSize: getFontSize(context,3),
                         fontFamily: "AVENIRLTSD",
                         fontWeight: FontWeight.w700,
                         color: Colors.black)),)
             :buildHeaderWithFilters(context),
             ),
             data.isEmpty?
-            Text('No Completed Inspections',style: TextStyle(
-                      fontSize: getFontSize(context,-2),
-                      fontFamily: "AVENIRLTSD",
-                      fontWeight: FontWeight.w500,
-                      
-                      color: Colors.black54))
+            Center(
+              child: Text('No Completed Inspections',style: TextStyle(
+                        fontSize: getFontSize(context,-1),
+                        fontFamily: "AVENIRLTSD",
+                        fontWeight: FontWeight.w500,
+                        
+                        color: Colors.black54)),
+            )
             :
             MediaQuery.of(context).size.width <= 600
                 ? mobileEntryList(data,isCompleted: true)
@@ -426,172 +428,187 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
     );
   }
 
-  ExpansionTile buildHeaderWithFilters(BuildContext context) {
-    return ExpansionTile(
-              maintainState: true,
-              trailing: Icon(
-                Icons.search,
-                color: Theme.of(context).accentColor,
-              ),
-              tilePadding: EdgeInsets.all(0),
-              title: Text('Completed Inspections',
-                  style: TextStyle(
-                      fontSize: getFontSize(context,2),
-                      fontFamily: "AVENIRLTSD",
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black)),
-              children: [
-                ListTile(
-                  
+  Theme buildHeaderWithFilters(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+       dividerColor: Colors.transparent 
+      ),
+          child: ExpansionTile(
+        initiallyExpanded: _isExpanded,
+               onExpansionChanged: (value){
+                 setState(() { _isExpanded=value;});
                  
-                  leading: Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: TextFormField(
-                      inputFormatters: [
-                        WhitelistingTextInputFormatter.digitsOnly
-                      ],
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.black54,
-                            fontSize: getFontSize(context,-2),
-                          ),
-                          contentPadding: EdgeInsets.all(0),
-                          hintText: 'Job No.'),
-                          onChanged: (value){
-                            jobNo=value;
-                          },
-                    ),
-                  ),
-                  title: Row(
-                    children: [
-                      Text('Job Type:  ',
-                          style: TextStyle(
-                              color: Colors.black,
+               },
+                trailing: Icon(
+                  _isExpanded?Icons.close:Icons.search,
+                  color: _isExpanded?Colors.redAccent:Theme.of(context).accentColor,
+                ),
+                tilePadding: EdgeInsets.all(0),
+                title: Text('Completed Inspections',
+                    style: TextStyle(
+                        fontSize: getFontSize(context,3),
+                        fontFamily: "AVENIRLTSD",
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black)),
+                children: [
+                  ListTile(
+                    leading: Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: TextFormField(
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                              color: Colors.black54,
                               fontSize: getFontSize(context,-2),
-                              fontWeight: FontWeight.w700)),
-                      Expanded(
-                        child: Container(
-                          child: DropdownButton(
-                            onChanged: (value) {
-                              inspectionType=value;
+                            ),
+                            contentPadding: EdgeInsets.all(0),
+                            hintText: 'Job No.'),
+                            onChanged: (value){
+                              jobNo=value;
                             },
-                            hint: Text('Any',
-                                style:
-                                    TextStyle(color: Colors.black, fontSize: getFontSize(context,-2))),
-                            value: inspectionType,
-                            items: [
-                              DropdownMenuItem(
-                                  child: Text('Inspection '), value: 'Inspection'),
-                              DropdownMenuItem(
-                                child: Text('Re-Inspection '),
-                                value: 'Re-Inspection',
-                              )
-                            ],
+                      ),
+                    ),
+                    title: Row(
+                      children: [
+                        Text('Job Type:  ',
                             style: TextStyle(
+                                color: Colors.black,
                                 fontSize: getFontSize(context,-2),
-                                fontFamily: "AVENIRLTSD",
-                                
-                                color: Colors.black),
+                                fontWeight: FontWeight.w700)),
+                        Expanded(
+                          child: Container(
+                            child: DropdownButtonHideUnderline(
+                                                        child: Container(
+                                                          
+                                                          decoration: BoxDecoration(border: Border(
+                                                            bottom: BorderSide(color: Colors.black54)
+                                                          )),
+                                                          child: DropdownButton(
+                                onChanged: (value) {
+                                  inspectionType=value;
+                                },
+                                hint: Text('Any',
+                                    style:
+                                        TextStyle(color: Colors.black, fontSize: getFontSize(context,-2))),
+                                value: inspectionType,
+                                items: [
+                                  DropdownMenuItem(
+                                      child: Text('Inspection '), value: 'First Inspection'),
+                                  DropdownMenuItem(
+                                    child: Text('Re-Inspection '),
+                                    value: 'Re-Inspection',
+                                  )
+                                ],
+                                style: TextStyle(
+                                    fontSize: getFontSize(context,-2),
+                                    fontFamily: "AVENIRLTSD",
+                                    
+                                    color: Colors.black),
+                              ),
+                                                        ),
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                ListTile(
-                  
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                  leading: Container(
-                    width: MediaQuery.of(context).size.width * 0.34,
-                    child: TextFormField(
-                      onChanged: (value) {
-                        ownerLand=value;
+                  ListTile(
+                    
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                    leading: Container(
+                      width: MediaQuery.of(context).size.width * 0.34,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          ownerName=value;
+                        },
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                              color: Colors.black54,
+                              fontSize: getFontSize(context,-2),
+                            ),
+                            contentPadding: EdgeInsets.all(0),
+                            hintText: 'Owner Name'),
+                      ),
+                    ),
+                    trailing: Container(
+                      width: MediaQuery.of(context).size.width * 0.53,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                              color: Colors.black54,
+                              fontSize: getFontSize(context,-2),
+                            ),
+                            
+                            contentPadding: EdgeInsets.all(0),
+                            hintText: 'Owner Address'),
+                            onChanged:(value){
+                              ownerAddress=value;
+                            }
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    
+                    leading: Icon(
+                      Icons.calendar_today,
+                      color: Theme.of(context).accentColor,
+                    ),
+                    title: GestureDetector(
+                      onTap: () {
+                        _selectDate(context);
                       },
-                      decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.black54,
-                            fontSize: getFontSize(context,-2),
-                          ),
-                          contentPadding: EdgeInsets.all(0),
-                          hintText: 'Owner Name'),
-                    ),
-                  ),
-                  trailing: Container(
-                    width: MediaQuery.of(context).size.width * 0.53,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.black54,
-                            fontSize: getFontSize(context,-2),
-                          ),
-                          
-                          contentPadding: EdgeInsets.all(0),
-                          hintText: 'Owner Address'),
-                          onChanged:(value){
-                            ownerAddress=value;
-                          }
-                    ),
-                  ),
-                ),
-                ListTile(
-                  
-                  leading: Icon(
-                    Icons.calendar_today,
-                    color: Theme.of(context).accentColor,
-                  ),
-                  title: GestureDetector(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: Text(
-                      selectedDate!=null?DateFormat("dd-MM-yyyy").format(selectedDate):'Select Date',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getFontSize(context,-2),
+                      child: Text(
+                        selectedDate!=null?DateFormat("dd-MM-yyyy").format(selectedDate):'Select Date',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: getFontSize(context,-2),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                ListTile(
-                  
-                  title: Row(
-                    children: [
-                      FlatButton(
-                          color: Theme.of(context).accentColor,
-                          onPressed: () {
-                            setState(() {
-                              filtered=true;
-                            });
-                          },
-                          child: Text(
-                            'Search',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: getFontSize(context,-2),
-                            ),
-                          )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FlatButton(
-                          color: Colors.grey,
-                          onPressed: () {
-                            filtered=false;setState(() {selectedDate=null; isReinspection=null;});
-                          },
-                          child: Text(
-                            'Show All',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: getFontSize(context,-2),
-                            ),
-                          )),
-                    ],
-                  ),
-                )
-              ],
-            );
+                  ListTile(
+                    
+                    title: Row(
+                      children: [
+                        FlatButton(
+                            color: Theme.of(context).accentColor,
+                            onPressed: () {
+                              setState(() {
+                                filtered=true;
+                              });
+                            },
+                            child: Text(
+                              'Search',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: getFontSize(context,-2),
+                              ),
+                            )),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FlatButton(
+                            color: Colors.grey,
+                            onPressed: () {
+                              filtered=false;setState(() {selectedDate=null;ownerAddress=null;ownerName=null;inspectionType=null;});
+                            },
+                            child: Text(
+                              'Reset',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: getFontSize(context,-2),
+                              ),
+                            )),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+    );
   }
 
   Card tabletEntryList(data,{bool isCompleted=false}) {
@@ -619,7 +636,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   ),
                   Expanded(
                     child: Text(
-                      "Owner's Name & Address",
+                      "Owner Details",
                       style: TextStyle(
                           fontFamily: "AVENIRLTSTD",
                           fontSize: getFontSize(context,2),
@@ -645,7 +662,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   Expanded(
                     child: Align(
                       child: Text(
-                        "Contact",
+                        "Status",
                         style: TextStyle(
                             fontFamily: "AVENIRLTSTD",
                             fontSize: getFontSize(context,2),
@@ -654,7 +671,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                       ),
                       alignment: Alignment.center,
                     ),
-                    flex: 1,
+                    flex: 2,
                   ),
                 ]),
           ),
@@ -687,9 +704,9 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   .difference(mondaydateofcurrentdate)
                   .inDays;
                   if(filtered && isCompleted)
-              if((ownerLand.isNotEmpty&&!data[index]['owner_name'].toLowerCase().contains(ownerLand.toLowerCase()))
+              if((ownerName.isNotEmpty&&!data[index]['owner_name'].toLowerCase().contains(ownerName.toLowerCase()))
               ||(selectedDate!=null&&selectedDate!=bookingDate)
-              ||(ownerLand.isNotEmpty&&!(data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']/*data[index]['owner_address']*/).toLowerCase().contains(ownerAddress.toLowerCase()))
+              ||(ownerName.isNotEmpty&&!(data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']/*data[index]['owner_address']*/).toLowerCase().contains(ownerAddress.toLowerCase()))
               ||(jobNo.isNotEmpty&&!data[index]['id'].toLowerCase().contains(jobNo.toLowerCase()))
               ||(inspectionType!=null&&data[index]['inspection_type'].toString()!=inspectionType.toString()))
                                         return Container();
@@ -725,12 +742,21 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            "${data[index]['id']}",
+                                            "${index+1}",
                                             style: TextStyle(
                                                 fontFamily: "AVENIRLTSTD",
                                                 fontSize: getFontSize(context,3),
                                                 color: Color(0xff000000),
                                                 fontWeight: FontWeight.normal),
+                                          ),
+                                          Text(
+                                            "",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
                                           ),
                                           Text(
                                             "",
@@ -749,7 +775,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                                 color: Color(0xffffffff),
                                                 fontWeight: FontWeight.w800),
                                           ),
-                                          Text(
+                                         Text(
                                             "",
                                             style: TextStyle(
                                                 fontFamily: "AVENIRLTSTD",
@@ -757,14 +783,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                                 color: Color(0xffffffff),
                                                 fontWeight: FontWeight.w800),
                                           ),
-                                          Text(
-                                            "",
-                                            style: TextStyle(
-                                                fontFamily: "AVENIRLTSTD",
-                                                fontSize: getFontSize(context,0),
-                                                color: Color(0xffffffff),
-                                                fontWeight: FontWeight.w800),
-                                          ),
+                                          
                                           SizedBox(
                                             height: 15,
                                           ),
@@ -775,6 +794,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                     child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             capitalize(
@@ -799,33 +819,30 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          if(isCompleted)
-                                          Padding(
-                                                  padding:
-                                                      new EdgeInsets.fromLTRB(
-                                                          4, 4, 4, 4),
-                                                  child: new RaisedButton(
-                                                    onPressed: () {},
-                                                    color: Theme.of(context).hintColor,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            new BorderRadius
-                                                                .circular(5.0)),
-                                                    child: Text(
-                                                      "SUBMITTED",
-                                                      style: TextStyle(
-                                                          fontSize: getFontSize(context,-5),
-                                                          color:
-                                                              Color(0xffFFFFFF),
-                                                          fontFamily:
-                                                              "AVENIRLTSTD",
-                                                          fontWeight: FontWeight
-                                                              .normal),
-                                                    ),
-                                                  ),
-                                                ),
-                                          
-                                        
+                                          Text(
+                                            "${data[index]['phonenumber']}",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,2),
+                                                color: Color(0xff000000),
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
                                           SizedBox(
                                             height: 10,
                                           ),
@@ -866,31 +883,35 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                                 color: Color(0xff000000),
                                                 fontWeight: FontWeight.normal),
                                           ),
+                                          Text(
+                                            "",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          if(!isCompleted)
-                                          Padding(
-                                  padding: new EdgeInsets.fromLTRB(4, 4, 4, 0),
-                                  child: new RaisedButton(
-                                    onPressed: () {},
-                                    color: Theme.of(context).hintColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(5.0)),
-                                    child: Text(
-                                      data[index]['is_confirm'] == 1?"Confirmed".toUpperCase():"Not Confirmed".toUpperCase(),
-                                      style: TextStyle(
-                                          fontSize: getFontSize(context,-5),
-                                          color: Color(0xffFFFFFF),
-                                          fontFamily: "AVENIRLTSTD",
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                  ),
-                                ),
-                                          SizedBox(
-                                            height: 6,
-                                          ),
+                                          
                                         ]),
                                     flex: 2,
                                   ),
@@ -899,27 +920,80 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: <Widget>[
+                                          isCompleted?
+                                          Padding(
+                                                  padding:
+                                                      new EdgeInsets.fromLTRB(
+                                                          4, 4, 4, 4),
+                                                  child: new RaisedButton(
+                                                    onPressed: () {},
+                                                    color: Theme.of(context).hintColor,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            new BorderRadius
+                                                                .circular(5.0)),
+                                                    child: Text(
+                                                      "SUBMITTED",
+                                                      style: TextStyle(
+                                                          fontSize: getFontSize(context,-5),
+                                                          color:
+                                                              Color(0xffFFFFFF),
+                                                          fontFamily:
+                                                              "AVENIRLTSTD",
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                  ),
+                                                ):
+                                          Padding(
+                                  padding:  EdgeInsets.fromLTRB(4, 4, 4, 0),
+                                  child:  RaisedButton(
+                                    onPressed: () {},
+                                    color: data[index]['is_confirm'] == 1?Theme.of(context).hintColor:Color(0xFFea5c44),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                             BorderRadius.circular(5.0)),
+                                    child: Text(
+                                      data[index]['is_confirm'] == 1?"Booking Confirmed".toUpperCase():"Booking Not Confirmed".toUpperCase(),
+                                      style: TextStyle(
+                                          fontSize: getFontSize(context,-5),
+                                          color: Color(0xffFFFFFF),
+                                          fontFamily: "AVENIRLTSTD",
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ),
                                           Text(
-                                            "${data[index]['phonenumber']}",
+                                            "",
+                                            maxLines: 2,
                                             style: TextStyle(
                                                 fontFamily: "AVENIRLTSTD",
-                                                fontSize: getFontSize(context,2),
-                                                color: Color(0xff000000),
-                                                fontWeight: FontWeight.normal),
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
                                           ),
                                           Text(
                                             "",
                                             style: TextStyle(
                                                 fontFamily: "AVENIRLTSTD",
-                                                fontSize: getFontSize(context,2),
+                                                fontSize: getFontSize(context,0),
                                                 color: Color(0xffffffff),
-                                                fontWeight: FontWeight.normal),
+                                                fontWeight: FontWeight.w800),
                                           ),
                                           SizedBox(
-                                            height: 80,
+                                            height: 10,
                                           ),
                                         ]),
-                                    flex: 1,
+                                    flex: 2,
                                   ),
                                 ]),
                             Divider(
@@ -943,7 +1017,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
       shrinkWrap: true,
       itemCount: data.length,
       itemBuilder: (context, index) {
-        print('${data[index]['owner_name']}: ${data[index]['is_compliant']}');
         DateTime date = DateTime.now();
         DateTime mondaydateofcurrentdate =
             DateTime.now().subtract(new Duration(days: date.weekday - 1));
@@ -956,14 +1029,11 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             .subtract(new Duration(days: bookingDate.weekday - 1));
         differencedate =
             mondayofbookingDate.difference(mondaydateofcurrentdate).inDays;
-            print('Selected Date '+selectedDate.toString());
-            print('Booking Date '+bookingDate.toString());
-            if(selectedDate==bookingDate)
-              print('Matched');
+           
             if(filtered && isCompleted)
-              if((ownerLand.isNotEmpty&&!data[index]['owner_name'].toLowerCase().contains(ownerLand.toLowerCase()))
+              if((ownerName.isNotEmpty&&!data[index]['owner_name'].toLowerCase().contains(ownerName.toLowerCase()))
               ||(selectedDate!=null&&selectedDate!=bookingDate)
-              ||(ownerLand.isNotEmpty&&!(data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']/*data[index]['owner_address']*/).toLowerCase().contains(ownerAddress.toLowerCase()))
+              ||(ownerName.isNotEmpty&&!(data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']/*data[index]['owner_address']*/).toLowerCase().contains(ownerAddress.toLowerCase()))
               ||(jobNo.isNotEmpty&&!data[index]['id'].toLowerCase().contains(jobNo.toLowerCase()))
               ||(inspectionType!=null&&data[index]['inspection_type'].toString()!=inspectionType.toString()))
                                         return Container();
@@ -1099,7 +1169,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                   padding: new EdgeInsets.fromLTRB(4, 4, 4, 0),
                                   child: new RaisedButton(
                                     onPressed: () {},
-                                    color: Theme.of(context).hintColor,
+                                    color: data[index]['is_confirm'] == 1?Theme.of(context).hintColor:Color(0xFFea5c44),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             new BorderRadius.circular(5.0)),

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -53,7 +54,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey, 
-      endDrawer: drawerData(context, userRepo.user.rolesManage),
+      // endDrawer: drawerData(context, userRepo.user.rolesManage),
       backgroundColor: config.Colors().scaffoldColor(1),
       appBar: AppBar(
         title: Text("Book Inspection",
@@ -63,16 +64,16 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                 color: Color(0xff222222),
                 fontWeight: FontWeight.normal)),
         centerTitle: true,
-        leading: Image.asset(
+        leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios,color: Theme.of(context).accentColor),
+              onPressed: () => Navigator.pop(context)),
+      
+        actions: <Widget>[
+          Image.asset(
           "assets/img/app-iconwhite.jpg",
           // fit: BoxFit.cover,
           fit: BoxFit.fitWidth,
         ),
-      
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () => _scaffoldKey.currentState.openEndDrawer())
         ],
       ),
       body: GestureDetector(
@@ -234,7 +235,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
               fontSize: getFontSize(context,0),
               color: Color(0xff222222),
               fontWeight: FontWeight.normal),),
-
+              SizedBox(height:3),
           FormBuilderDateTimePicker(
             style: TextStyle(color: Color(0xff222222),fontFamily: "AVENIRLTSTD",fontSize: getFontSize(context,2)),
             controller: _bookingFormController.councilRegisDate,
@@ -246,6 +247,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                 context,
                 "What is the date of construction of the pool \nin the Council Registration",
                 "Select Date").copyWith(
+                  hintStyle: TextStyle(color:Theme.of(context).accentColor),
                          enabledBorder: InputBorder.none,
                          focusedBorder: InputBorder.none,
                          focusedErrorBorder: InputBorder.none, 
@@ -510,7 +512,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                       fontSize: getFontSize(context,0),
                       color: Color(0xff222222),
                       fontWeight: FontWeight.normal),),
-
+SizedBox(height:3),
                   FormBuilderDateTimePicker(
                     initialDate: DateTime.now(),
                     firstDate: DateTime.now().subtract(Duration(days: 0)),
@@ -526,6 +528,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                         context,
                         "What is the requested booking date and time \nof the inspection? ",
                         "Select Date").copyWith(
+                          hintStyle: TextStyle(color:Theme.of(context).accentColor),
                          enabledBorder: InputBorder.none,
                          focusedBorder: InputBorder.none,
                          focusedErrorBorder: InputBorder.none, 
@@ -538,6 +541,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                       fontSize: getFontSize(context,0),
                       color: Color(0xff222222),
                       fontWeight: FontWeight.normal),),
+                      SizedBox(height:3),
                   FormBuilderDateTimePicker(
 
                     style: TextStyle(color: Color(0xff222222),fontSize: getFontSize(context,2),fontFamily: "AVENIRLTSTD",),
@@ -551,6 +555,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                         context,
                         "What is the requested booking time of the inspection? ",
                         "Select Time").copyWith(
+                          hintStyle: TextStyle(color:Theme.of(context).accentColor),
                          enabledBorder: InputBorder.none,
                          focusedBorder: InputBorder.none,
                          focusedErrorBorder: InputBorder.none, 
@@ -619,29 +624,31 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                     initialValue: true,
                     leadingInput: true,
 
-                    label: GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => MyWebView(
-                              title:"Inspector Advice" ,
-                              selectedUrl:"https://poolinspection.beedevstaging.com/important-advice",
-                            )));
-
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(2, 14,0, 0),
-                        child: Text(
-
-                          "I Hereby Acknowledge & Agree To Important Inspector Advice"
-                              .toUpperCase(),
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontFamily:"AVENIRLTSTD",
-                              fontWeight: FontWeight.bold,
-                              fontSize: getFontSize(context,-5)),
-                        ),
-                      )
-                    ),
+                    label: RichText(
+  text: TextSpan(
+    text: "I have read and agree to the ",
+    style: TextStyle(
+              color: Colors.black,
+              fontFamily:"AVENIRLTSTD",
+              fontWeight: FontWeight.bold,
+              fontSize: getFontSize(context,1)),
+    children: <TextSpan>[
+      TextSpan(
+        recognizer:TapGestureRecognizer()..onTap=(){
+          Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => MyWebView(
+                  title:"Terms And Conditions" ,
+                  selectedUrl:"https://poolinspection.beedevstaging.com/terms-condition",
+                )));
+        },
+        text: 'Terms & Conditions', style: TextStyle(
+              color: Theme.of(context).accentColor,
+              fontFamily:"AVENIRLTSTD",
+              fontWeight: FontWeight.bold,
+              fontSize: getFontSize(context,1))),
+    ],
+  ),
+),
                     validators: [
                       FormBuilderValidators.requiredTrue(
                         errorText:

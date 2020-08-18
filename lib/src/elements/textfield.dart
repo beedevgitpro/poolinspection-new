@@ -151,7 +151,6 @@ class CustomFormBuilderTextFieldState extends State<CustomFormBuilderTextField> 
         enabled: !_readOnly,
       ),
       autovalidate: widget.autovalidate ?? false,
-      // initialValue: "${_initialValue ?? ''}",
       maxLines: widget.maxLines,
       keyboardType: widget.keyboardType,
       obscureText: widget.obscureText,

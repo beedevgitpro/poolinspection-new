@@ -303,8 +303,6 @@ class InspectionController extends ControllerMVC {
 
                  print("data image length"+data.imagename.length.toString());
                  print("data image path"+data.imagepath.toString());
-
-                 // img64=[];
                  String img64="";
                  for(var i = 0; i < data.imagename.length; i++) {
                    final bytes = File(data.imagepath[i]).readAsBytesSync();

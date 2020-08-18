@@ -8,11 +8,11 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:poolinspection/src/components/responsive_text.dart';
 import 'package:poolinspection/src/controllers/inspection_controller.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:poolinspection/constants.dart';
 Future getAllRegulations() async {
   final String _apiToken = 'beedev';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}$_apiToken/get_all_regulation';
+      '$publicBaseUrl$_apiToken/get_all_regulation';
   final response = await http.get(url);
   if (response.statusCode == 200) {
     return json.decode(response.body);
@@ -24,7 +24,7 @@ Future getAllRegulations() async {
 Future getCompanyInspectors(int id) async {
   final String _apiToken = 'beedev';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}$_apiToken/get_company_inspector/$id';
+      '$publicBaseUrl$_apiToken/get_company_inspector/$id';
   final response = await http.get(url);
   if (response.statusCode == 200) {
     return json.decode(response.body);
@@ -91,7 +91,7 @@ Future confirmPreliminaryBooking(
   print(predataprefilled['preliminary_data']['inspector_list']);
   final String _apiToken = 'beedev';
   try {
-    final String url ='${GlobalConfiguration().getString('api_base_url')}$_apiToken/confirm_preliminary_data/${predata['bookingid']}';
+    final String url ='$publicBaseUrl$_apiToken/confirm_preliminary_data/${predata['bookingid']}';
     print(url);
     print('inConfirm');
     final client = new http.Client();
@@ -168,7 +168,7 @@ Future getHeadersFromBookingId(int bookingid,context) async {
   final String _apiToken = 'beedev';
   try {
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}$_apiToken/get_heading_with_booking_id/$bookingid';
+      '$publicBaseUrl$_apiToken/get_heading_with_booking_id/$bookingid';
   final response = await http.get(url);
   print("$url getHeadersFromBookingId");
   if (response.statusCode == 200) {
@@ -270,7 +270,7 @@ Future preliminaryDataFromJobNo(int jobno,context) async {
   try
   {
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}$_apiToken/preliminary_data/$jobno';
+      '$publicBaseUrl$_apiToken/preliminary_data/$jobno';
   print(url);
   final response = await http.get(url);
   if (response.statusCode == 200) {
@@ -326,7 +326,7 @@ Future postBookingAnswer(QuestionData fields,context) async {
   final String _apiToken = 'beedev';
 
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}$_apiToken/booking_ans_post';
+      '$publicBaseUrl$_apiToken/booking_ans_post';
   print(url);
   print("imagepath${fields.imagepath}");
   FormData formData = fields.imagepath == null
@@ -410,7 +410,7 @@ Future completeMark(int bookingid, int choice) async {
   final String _apiToken = 'beedev';
 
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}$_apiToken/compliance_post';
+      '$publicBaseUrl$_apiToken/compliance_post';
   FormData formData = FormData.fromMap({
     "booking_id": bookingid,
     "is_compliant": choice,
@@ -431,7 +431,7 @@ Future completeMark(int bookingid, int choice) async {
 Future getAllQuestionsCount(int jobno) async {
   final String _apiToken = 'beedev';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}$_apiToken/get_all_question_from_job_id/$jobno';
+      '$publicBaseUrl$_apiToken/get_all_question_from_job_id/$jobno';
   print(url);
   final response = await http.get(url);
   if (response.statusCode == 200) {
@@ -446,7 +446,7 @@ Future getAllQuestionsCount(int jobno) async {
 Future getAllQuestionsCountFromHeading(int bookingid, int headingid) async {
   final String _apiToken = 'beedev';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}$_apiToken/check_all_question_filled_in_heading/$bookingid/$headingid';
+      '$publicBaseUrl$_apiToken/check_all_question_filled_in_heading/$bookingid/$headingid';
   print(url);
   final response = await http.get(url);
   if (response.statusCode == 200) {

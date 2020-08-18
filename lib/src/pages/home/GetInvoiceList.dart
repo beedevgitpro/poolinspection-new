@@ -9,7 +9,7 @@ import 'package:poolinspection/src/pages/home/MyWebView.dart';
 import 'package:poolinspection/src/helpers/sharedpreferences/userpreferences.dart';
 import 'package:poolinspection/config/app_config.dart' as config;
 import 'package:poolinspection/src/repository/user_repository.dart' as userRepo;
-
+import 'package:poolinspection/constants.dart';
 
 class InvoiceListClass extends StatefulWidget {
 
@@ -47,7 +47,7 @@ class _InvoiceListClassState extends State<InvoiceListClass> {
   Future<GetInvoiceList> createInvoiceList() async {
     try {
       final response = await http.get(
-        'https://poolinspection.beedevstaging.com/api/beedev/invoice-list/$userId',
+        '$baseUrl/beedev/invoice-list/$userId',
 
       );
 
@@ -70,7 +70,7 @@ class _InvoiceListClassState extends State<InvoiceListClass> {
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: config.Colors().scaffoldColor(1),
-        endDrawer: drawerData(context, userRepo.user.rolesManage),
+        // endDrawer: drawerData(context, userRepo.user.rolesManage),
         appBar: AppBar(
           leading: IconButton(
               icon: Icon(
@@ -90,9 +90,11 @@ class _InvoiceListClassState extends State<InvoiceListClass> {
 
           ),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () => _scaffoldKey.currentState.openEndDrawer())
+            Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            // fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+          )
           ],
         ),
 
@@ -240,7 +242,7 @@ class _InvoiceListClassState extends State<InvoiceListClass> {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (BuildContext context) => MyWebView(
                                         title:"INVOICE NO. "+invoiceList[index].invoiceNumber ,
-                                        selectedUrl:"https://poolinspection.beedevstaging.com/api/beedev/view_invoice/"+invoiceList[index].contactId,
+                                        selectedUrl:"$baseUrl/beedev/view_invoice/"+invoiceList[index].contactId,
                                       )));
 
                               }

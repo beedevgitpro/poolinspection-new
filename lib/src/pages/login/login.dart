@@ -203,7 +203,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                       },
                       textColor: Theme
                           .of(context)
-                          .hintColor,
+                          .accentColor,
                       child: Text(
                         "Forgot Password?",
                         style: TextStyle(
@@ -229,7 +229,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                                   },
                                                                 child: Text(' Register',
                                   style: TextStyle(
-                                    color:Theme.of(context).hintColor,
+                                    color:Theme.of(context).accentColor,
                                     fontFamily: "AVENIRLTSTD",
                                     fontSize: getFontSize(context,0),
                                   )),

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poolinspection/src/components/responsive_text.dart';
-import 'package:poolinspection/src/elements/drawer.dart';
 import 'package:poolinspection/src/models/getpaymentdetailmodel.dart';
 import 'package:poolinspection/src/models/selectCompliantOrNotice.dart';
 import 'package:poolinspection/src/elements/custom_progress_dialog.dart';
@@ -19,7 +18,7 @@ import 'package:poolinspection/src/elements/inputdecoration.dart';
 import 'package:poolinspection/src/elements/textlabel.dart';
 import 'package:poolinspection/src/repository/user_repository.dart' as userRepo;
 import 'package:poolinspection/src/models/signupfields.dart';
-
+import 'package:poolinspection/constants.dart';
 
 class AddBankDetailWidget extends StatefulWidget {
   @override
@@ -43,6 +42,7 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
   _AddBankDetailState() : super(UserController()) {
     _userController = controller;
   }
+  // ignore: missing_return
   Future<PaymentDetailGetApiModel> getBankDetail() async {
 
     try {
@@ -58,7 +58,7 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
       });
       print("useruseruser"+userID.toString());
       final response = await http.get(
-        'https://poolinspection.beedevstaging.com/api/beedev/payment-detail/$userID',
+        '$baseUrl/beedev/payment-detail/$userID',
 
       );
 
@@ -117,7 +117,7 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
     {
       print("ssss"+userid.toString()+accountnumber.toString()+accountname.toString()+bsbnumber.toString());
       final response = await http.post(
-          'https://poolinspection.beedevstaging.com/api/beedev/add_bank_details',
+          '$baseUrl/beedev/add_bank_details',
           body: {'user_id':userid,'account_name':accountname,'account_no':accountnumber,'bsb_no':bsbnumber}
       );
       print("bankdetailrespnse"+response.body.toString());
@@ -130,8 +130,8 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
             //response code is 400
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-
-            backgroundColor: Colors.blueAccent,
+            backgroundColor:
+            Theme.of(context).hintColor,
             textColor: Colors.white,
             fontSize: getFontSize(context,-2)
         );
@@ -146,8 +146,8 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
 
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-
-            backgroundColor: Colors.blueAccent,
+            backgroundColor:
+            Theme.of(context).hintColor,
             textColor: Colors.white,
             fontSize: getFontSize(context,-2)
         );
@@ -209,7 +209,7 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
     return Scaffold(
         backgroundColor: config.Colors().scaffoldColor(1),
 
-        endDrawer: drawerData(context, userRepo.user.rolesManage),
+        // endDrawer: drawerData(context, userRepo.user.rolesManage),
       appBar: AppBar(
         leading: IconButton(
             icon: Icon(
@@ -229,15 +229,14 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
 
     ),
         actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () => _scaffoldKey.currentState.openEndDrawer())
+          Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            // fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+          )
         ],
         ),
 
-        // actions: <Widget>[
-        //   IconButton(icon: Icon(Icons.dns), onPressed: () => print(''))
-        // ],
         key: _scaffoldKey,
         resizeToAvoidBottomPadding: true,
         body: GestureDetector(
@@ -267,7 +266,6 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
                 child: buildBankDetailsForm(context),
                 );
                   }
-
                 else
                   {
                   return Padding(
@@ -281,11 +279,8 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
                   return Align(
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(),
-
                   );
                 }
-
-
             },
 
           ),
@@ -297,8 +292,6 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
 
 
   FormBuilder buildBankDetailsForm(BuildContext context) {
-
-
     final sizedbox =
     SizedBox(height: config.App(context).appVerticalPadding(2));
     return FormBuilder(
@@ -322,7 +315,7 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
                    child: Padding(
                      padding: EdgeInsets.all(5.0),
                      child:Text("Bank Details" ,textAlign: TextAlign.center, style: TextStyle(
-                                 fontWeight: FontWeight.bold, fontSize:20,fontFamily: "AVENIRLTSTD",color:Colors.black))
+                                 fontWeight: FontWeight.bold, fontSize: getFontSize(context, 3),fontFamily: "AVENIRLTSTD",color:Colors.black))
                         
                        
                    ),

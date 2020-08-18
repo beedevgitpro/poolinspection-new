@@ -14,27 +14,10 @@ import 'package:poolinspection/config/app_config.dart' as config;
 import 'package:poolinspection/src/models/route_argument.dart';
 import 'package:poolinspection/src/elements/custom_progress_dialog.dart';
 import 'package:poolinspection/src/repository/user_repository.dart' as userRepo;
+import 'package:poolinspection/constants.dart';
 
 
 
-//final Dio dio = new Dio();
-//class WebClient {
-//  const WebClient();
-//
-//  Future<void> download(
-//      String url, savePath, ProgressCallback onProgress) async {
-//    try {
-//      await dio.download(url, savePath, onReceiveProgress: onProgress);
-//    } catch (e) {
-//      print(e.toString());
-//      //throw ('An error occurred');
-//    }
-//
-//  }
-//}
-//
-//final WebClient https = new WebClient();
-//
 
 
 class SelectNoticeOrNonCompliant extends StatefulWidget {
@@ -98,7 +81,7 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
     try
     {
       response = await http.post(
-          'https://poolinspection.beedevstaging.com/api/beedev/confirm_non_compliant',
+          '$baseUrl/beedev/confirm_non_compliant',
           body: {'booking_id': bookingId.toString(), 'booking_date_time': bookingDate.substring(0,10).toString(),'booking_time':bookingTime.substring(11,16).toString(),'compliant_btn':selection}
       );
       print("helohelo"+response.body.toString());
@@ -163,7 +146,7 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: config.Colors().scaffoldColor(1),
-        endDrawer: drawerData(context, userRepo.user.rolesManage),
+        // endDrawer: drawerData(context, userRepo.user.rolesManage),
         appBar: AppBar(
           leading: IconButton(
               icon: Icon(
@@ -183,15 +166,14 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
 
           ),
           actions: <Widget>[
-
-
-              //   IconButton(
-              //       icon: Icon(Icons.menu),
-              //         onPressed: () => _con.scaffoldKey.currentState.openDrawer()),
-
-            IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () => _scaffoldKey.currentState.openEndDrawer())
+            Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            // fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+          )
+            // IconButton(
+            //     icon: Icon(Icons.menu),
+            //     onPressed: () => _scaffoldKey.currentState.openEndDrawer())
           ],
         ),
 
@@ -227,7 +209,7 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
 
 
 
-                                  selectnoncompliantornotice("non-compliant","2020-06-27 00:00:00.000","0001-01-01 17:24:00.000");
+                                  selectnoncompliantornotice("non-compliant",_formNKey.currentState.value['booking_date_time'].toString(),_formNKey.currentState.value['booking_time'].toString());
 
                             }
                         ),
@@ -310,12 +292,12 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
                 children: <Widget>[
 
 
-                  Text("What is the requested booking date of Re-inspection? ",textAlign: TextAlign.left,  style: TextStyle(
+                  Text("Requested Booking date of the Re-Inspection:",textAlign: TextAlign.left,  style: TextStyle(
                       fontFamily: "AVENIRLTSTD",
                       fontSize: getFontSize(context,0),
                       color: Color(0xff222222),
                       fontWeight: FontWeight.normal),),
-
+                      SizedBox(height:3),
                   FormBuilderDateTimePicker(
                     initialDate: DateTime.now(),
                     firstDate: DateTime.now().subtract(Duration(days: 0)),
@@ -329,17 +311,22 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
                     decoration: buildInputDecoration(
                         context,
                         "What is the requested booking date and time \nof the inspection? ",
-                        "Select Date"),
+                        "Select Date").copyWith(
+                      hintStyle: TextStyle(color:Theme.of(context).accentColor),
+                         enabledBorder: InputBorder.none,
+                         focusedBorder: InputBorder.none,
+                         focusedErrorBorder: InputBorder.none, 
+                        ),
                   ),
 
                   sizedbox,
-                  Text("What is the requested booking time of the Re-inspection? ",textAlign: TextAlign.left,  style: TextStyle(
+                  Text("Requested Booking time of the Re-Inspection:",textAlign: TextAlign.left,  style: TextStyle(
                       fontFamily: "AVENIRLTSTD",
                       fontSize: getFontSize(context,0),
                       color: Color(0xff222222),
                       fontWeight: FontWeight.normal),),
+                      SizedBox(height:3),
                   FormBuilderDateTimePicker(
-
                     style: TextStyle(color: Color(0xff222222),fontSize: getFontSize(context,2),fontFamily: "AVENIRLTSTD",),
                     attribute: "booking_time",
                     validators: [FormBuilderValidators.required()],
@@ -348,7 +335,12 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
                     decoration: buildInputDecoration(
                         context,
                         "What is the requested booking time of the inspection? ",
-                        "Select Time"),
+                        "Select Time").copyWith(
+                      hintStyle: TextStyle(color:Theme.of(context).accentColor),
+                         enabledBorder: InputBorder.none,
+                         focusedBorder: InputBorder.none,
+                         focusedErrorBorder: InputBorder.none, 
+                        ),
 
 
                     //  initialTime: TimeOfDay(hour: 8, minute: 0),
@@ -373,10 +365,6 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
       ],
     );
   }
-
-
-
-//Create the Filtered ListView
 
 
 }

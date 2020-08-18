@@ -14,7 +14,7 @@ import 'package:poolinspection/src/models/questionmodel.dart';
 import 'package:poolinspection/src/models/selectCompliantOrNotice.dart';
 import 'package:poolinspection/src/elements/custom_progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:poolinspection/constants.dart';
 import 'inspectionquestionslist.dart';
 
 
@@ -53,7 +53,7 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
       if(data!=null&& data!='{"answers":[]}'.toString()) {
         pr.show();
         final response = await http.post(
-            'https://poolinspection.beedevstaging.com/api/beedev/local-storage-send-ans',
+            '$baseUrl/beedev/local-storage-send-ans',
             body: data
         );
         SelectNonCompliantOrNotice selectNonCompliantOrNotice = selectNonCompliantOrNoticeFromJson(
@@ -426,7 +426,7 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
                                     fontSize: getFontSize(context,0),
                                     fontWeight: FontWeight.w700,
                                     fontFamily: "AVENIRLTSTD",
-                                    color: Color(0xff0ba1d9)),
+                                    color: Colors.blueAccent),
 
                               ),
                             )
@@ -562,7 +562,7 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
                                                 fontSize: getFontSize(context,0),
                                                 fontWeight: FontWeight.w700,
                                                 fontFamily: "AVENIRLTSTD",
-                                                color: Color(0xff0ba1d9)),
+                                                color: Colors.blueAccent),
 
                                           ),
                                         )

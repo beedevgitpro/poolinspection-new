@@ -56,7 +56,6 @@ class SplashScreenState extends StateMVC<SplashScreen> {
           image: new DecorationImage(
             image: new AssetImage("assets/img/poolsplashimage.png"),
             fit: BoxFit.fill,
-
           ),
         ),
         child: Center(
@@ -67,7 +66,7 @@ class SplashScreenState extends StateMVC<SplashScreen> {
             children: <Widget>[
               Icon(
                 Icons.pool,
-                size: 90,
+                size: MediaQuery.of(context).size.height*0.2,
                 color: Theme.of(context).scaffoldBackgroundColor,
               ),
               Text(
@@ -78,10 +77,15 @@ class SplashScreenState extends StateMVC<SplashScreen> {
               ),
               SizedBox(height: 50),
              // isOffline
-               CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).scaffoldBackgroundColor),
-                    )
+               Container(
+                 width: MediaQuery.of(context).size.width*0.1,
+                 height: MediaQuery.of(context).size.width*0.1,
+                 child: CircularProgressIndicator(
+                        strokeWidth: 10,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).scaffoldBackgroundColor),
+                      ),
+               )
                  
             ],
           ),

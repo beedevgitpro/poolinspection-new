@@ -1,9 +1,10 @@
-
+import 'package:poolinspection/constants.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poolinspection/src/components/responsive_text.dart';
+import 'package:poolinspection/src/elements/BlockButtonWidget.dart';
 import 'package:poolinspection/src/elements/drawer.dart';
 import 'package:poolinspection/src/elements/inputdecoration.dart';
 import 'package:poolinspection/src/elements/radiobutton.dart';
@@ -67,12 +68,10 @@ class _SignCertificateScreenState extends State<SignCertificateScreen> {
   {
     await pr.show();
     String base64Image = base64Encode(dataimage);
-    print("checkpaymentpaid="+paymentpaid);
 
     try {
-      print("imageimage"+dataimage.toString());
       final response = await http.post(
-          'https://poolinspection.beedevstaging.com/api/beedev/post_signature',
+          '$baseUrl/beedev/post_signature',
           body: {'job_id': id, 'signature':"data:image/png;base64,"+base64Image,'payment_paid':paymentpaid,'non_compliance_option1':nonCompliance[0]?'1':'0',
 'non_compliance_option2':nonCompliance[1]?'1':'0',
 'non_compliance_option3':nonCompliance[2]?'1':'0',
@@ -127,7 +126,6 @@ class _SignCertificateScreenState extends State<SignCertificateScreen> {
 
     return Scaffold(
         key: _scaffoldKey,
-        //  drawer: DrawerOnly(),
         backgroundColor: config.Colors().scaffoldColor(1),
         endDrawer: drawerData(context, userRepo.user.rolesManage),
         appBar: AppBar(
@@ -149,9 +147,11 @@ class _SignCertificateScreenState extends State<SignCertificateScreen> {
 
           ),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () => _scaffoldKey.currentState.openEndDrawer())
+            Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            
+            fit: BoxFit.fitWidth,
+          )
           ],
         ),
 
@@ -163,10 +163,19 @@ class _SignCertificateScreenState extends State<SignCertificateScreen> {
 
                     children: <Widget>[
                       
-                      Signature(
-                        controller: _signatureController,
-                        height: 300,
-                        backgroundColor: Color(0xffdedede),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text('Sign Here',style: TextStyle(
+                           color:Colors.black54,
+                           fontSize: getFontSize(context, 5) 
+                          ),),
+                          Signature(
+                            controller: _signatureController,
+                            height: 300,
+                            backgroundColor: Colors.grey[200].withOpacity(0.3),
+                          ),
+                        ],
                       ),
                       Container(
                         child: bookingForm(context),
@@ -176,46 +185,70 @@ class _SignCertificateScreenState extends State<SignCertificateScreen> {
                         padding: EdgeInsets.all(10.0),
 
                         child: Container(
-                          decoration: const BoxDecoration(color: Colors.blue),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              //SHOW EXPORTED IMAGE IN NEW ROUTE
-                              IconButton(
-                                icon: const Icon(Icons.check,),
-                                color: Colors.white,
-                                onPressed: () async  {
+                              Expanded(
+                                                              child: FlatButton(
+                                  child: Padding(
+                                    padding:EdgeInsets.symmetric(vertical:14.0),
+                                    child: Text(
+                        'SUBMIT',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "AVENIRLTSTD",
+                          fontSize: getFontSize(context,2),
+                        ),
+                      ),
+                                  ),
+                                  color: Colors.blueAccent,
+                                  onPressed: () async  {
 
-                                  if (_signatureController.isNotEmpty) {
+                                    if (_signatureController.isNotEmpty) {
 
-                                     _formNKey.currentState.saveAndValidate();
-                                    var data = await _signatureController.toPngBytes();
+                                       _formNKey.currentState.saveAndValidate();
+                                      var data = await _signatureController.toPngBytes();
 
-                                    generatePdf(data,_formNKey.currentState.value["payment_paid"].toString());
+                                      generatePdf(data,_formNKey.currentState.value["payment_paid"].toString());
 
-                                  }
-                                  else
-                                    {
-                                      Fluttertoast.showToast(
-                                          msg: "Signature Required",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.CENTER,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: getFontSize(context,-2)
-                                      );
                                     }
-                                },
+                                    else
+                                      {
+                                        Fluttertoast.showToast(
+                                            msg: "Signature Required",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: getFontSize(context,-2)
+                                        );
+                                      }
+                                  },
+                                ),
                               ),
-                              //CLEAR CANVAS
-                              IconButton(
-                                icon: const Icon(Icons.clear),
-                                color: Colors.white,
-                                onPressed: () {
-                                  setState(() => _signatureController.clear());
-                                },
+                              SizedBox(width: 8,),
+                              Expanded(
+                                                              child: FlatButton(
+                                  child: Padding(
+                                    padding:  EdgeInsets.symmetric(vertical:14.0),
+                                    child: Text(
+                        'CLEAR',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "AVENIRLTSTD",
+                          fontSize: getFontSize(context,2),
+                        ),
+                      ),
+                                  ),
+                                  color: Colors.grey,
+                                  onPressed: () {
+                                    nonCompliance=[false,false,false,false];
+                                    compliant=[false,false,false];
+                                    setState(() => _signatureController.clear());
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -341,9 +374,14 @@ class _SignCertificateScreenState extends State<SignCertificateScreen> {
                       color: Color(0xff222222),
                       fontWeight: FontWeight.normal),),
                   CustomFormBuilderRadio(
-                    activeColor: Color(0xff222222),
+                    activeColor: Colors.blueAccent,
                     decoration: buildInputDecoration(context,
-                        "Has the inspection fee payment been made?", "yes or no"),
+                        "Has the inspection fee payment been made?", "yes or no").copyWith(
+                         enabledBorder: InputBorder.none,
+                         focusedBorder: InputBorder.none,
+                         focusedErrorBorder: InputBorder.none,
+                         errorBorder: InputBorder.none
+                        ),
                     attribute: "payment_paid",
                     validators: [FormBuilderValidators.required()],
                     options: ["Yes", "No"]

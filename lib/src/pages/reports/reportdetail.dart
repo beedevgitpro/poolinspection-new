@@ -30,7 +30,7 @@ class WebClient {
 final WebClient http = new WebClient();
 
 class ReportDetailWidget extends StatefulWidget {
-  CompliantReportList routeArgument;
+  final CompliantReportList routeArgument;
   ReportDetailWidget({Key key, this.routeArgument}) : super(key: key);
   //   DetailWidget({Key key, this.routeArgument}) : super(key: key);
 
@@ -57,7 +57,6 @@ class _ReportDetailWidgetState extends State<ReportDetailWidget> {
 
   void showDownloadProgress(received, total) {
     if (total != -1) {
-    
       var percentage = (received / total * 100);
       setState(() {
         if (percentage < 100) {

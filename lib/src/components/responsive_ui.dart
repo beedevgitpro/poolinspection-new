@@ -1,5 +1,3 @@
-
-
 class ResponsiveWidget{
 
   static bool isScreenLarge(double width, double pixel) {

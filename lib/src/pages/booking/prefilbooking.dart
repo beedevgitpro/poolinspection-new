@@ -367,6 +367,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
                     color: Color(0xff222222),
                     fontWeight: FontWeight.normal),
               ),
+              SizedBox(height:3),
               FormBuilderDateTimePicker(
                 style: TextStyle(
                     color: Color(0xff222222),
@@ -381,6 +382,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
                     context,
                     "What is the date of construction of the pool \nin the Council Registration",
                     "Select Date").copyWith(
+                      hintStyle: TextStyle(color:Theme.of(context).accentColor),
                          enabledBorder: InputBorder.none,
                          focusedBorder: InputBorder.none,
                          focusedErrorBorder: InputBorder.none, 
@@ -702,6 +704,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
                     color: Color(0xff222222),
                     fontWeight: FontWeight.normal),
               ),
+              SizedBox(height:3),
               FormBuilderDateTimePicker(
                 initialDate: DateTime.now(),
                 firstDate: DateTime.now().subtract(Duration(days: 0)),
@@ -720,6 +723,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
                     context,
                     "What is the requested booking date and time \nof the inspection? ",
                     "Select Date").copyWith(
+                      hintStyle: TextStyle(color:Theme.of(context).accentColor),
                          enabledBorder: InputBorder.none,
                          focusedBorder: InputBorder.none,
                          focusedErrorBorder: InputBorder.none, 
@@ -736,6 +740,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
                     color: Color(0xff222222),
                     fontWeight: FontWeight.normal),
               ),
+              SizedBox(height:3),
               FormBuilderDateTimePicker(
                 style: TextStyle(
                   color: Color(0xff222222),
@@ -751,6 +756,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
                     context,
                     "What is the requested booking time of the inspection? ",
                     "Select Time").copyWith(
+                      hintStyle: TextStyle(color:Theme.of(context).accentColor),
                          enabledBorder: InputBorder.none,
                          focusedBorder: InputBorder.none,
                          focusedErrorBorder: InputBorder.none, 
@@ -821,43 +827,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
               ),
 
               sizedbox,
-              // FormBuilderCheckbox(
-
-              //   attribute: 'accept_terms',
-              //   initialValue: true,
-              //   leadingInput: true,
-
-              //   label: GestureDetector(
-              //     onTap: (){
-              //       Navigator.of(context).push(MaterialPageRoute(
-              //           builder: (BuildContext context) => MyWebView(
-              //             title:"Inspector Advice" ,
-              //             selectedUrl:"https://poolinspection.beedevstaging.com/important-advice",
-              //           )));
-
-              //     },
-              //     child: Padding(
-              //       padding: const EdgeInsets.fromLTRB(2, 14,0, 0),
-              //       child: Text(
-
-              //         "I Hereby Acknowledge & Agree To Important Inspector Advice"
-              //             .toUpperCase(),
-              //         style: TextStyle(
-              //             color: Colors.red,
-              //             fontFamily:"AVENIRLTSTD",
-              //             fontWeight: FontWeight.bold,
-              //             fontSize: getFontSize(context,-5)),
-              //       ),
-              //     )
-              //   ),
-              //   validators: [
-              //     FormBuilderValidators.requiredTrue(
-              //       errorText:
-              //       "You must accept Important Inspector Advice",
-              //     ),
-              //   ],
-              // ),
-              // SizedBox(height: 20,),
+             
             ],
           ),
         )),

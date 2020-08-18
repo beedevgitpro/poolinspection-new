@@ -66,11 +66,11 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        drawer: drawerData(
-            context,
-            widget.routeArgument == null
-                ? userRepo.user.rolesManage
-                : widget.routeArgument.role),
+        // drawer: drawerData(
+        //     context,
+        //     widget.routeArgument == null
+        //         ? userRepo.user.rolesManage
+        //         : widget.routeArgument.role),
         key: _homeController.scaffoldKey,
         backgroundColor: config.Colors().scaffoldColor(1),
         appBar: AppBar(
@@ -81,14 +81,15 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
                   // fontWeight: FontWeight.bold,
                   color: Color(0xff222222))),
           centerTitle: true,
-          leading: 
-          IconButton(
+          leading: IconButton(
                 icon: Icon(
-                  Icons.menu,
+                  Icons.arrow_back_ios,
                   color: config.Colors().secondColor(1),
                 ),
-                onPressed: () => _homeController.scaffoldKey.currentState.openDrawer()),
+                onPressed: () => Navigator.pop(context)),
+          
           actions: <Widget>[
+
             Image.asset(
             "assets/img/app-iconwhite.jpg",
     
@@ -117,7 +118,7 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
 
    print("xmh="+data['newlist'].length.toString());
     return Column(children: <Widget>[
-          SizedBox(height: 10,),
+          
 
       data['newlist'].length==0 &&data['reinspection_list'].length==0?Center(
         child: Align(
@@ -139,26 +140,25 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
          padding: const EdgeInsets.fromLTRB(25, 10, 0, 0),
          child:Text("Inspection List",
              style: TextStyle(
-                 fontSize: getFontSize(context,2),
+                 fontSize: getFontSize(context,3),
                  fontFamily: "AVENIRLTSD",
                  fontWeight: FontWeight.w700,
                  // fontWeight: FontWeight.bold,
                  color: Color(0xff000000))),
        ),
      ),
-            buildContainerInProgress(context, 1, data['newlist']+ data['reinspection_list']),
+            buildContainerInProgress(context, data['newlist']+ data['reinspection_list']),
 
 
           ]);
 
   }
 
-  Widget buildContainerInProgress(BuildContext context, int i, data) {
-    print(data[i]);
+  Widget buildContainerInProgress(BuildContext context, data) {
 
     return Expanded( //i removed app height.context and uses expanded in case of some error in future lets do something .
       child: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(0),
           // certificate_generated_data
           // color: Colors.red,
           child: Padding(
@@ -466,14 +466,14 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: <Widget>[
 
-                                                    Text("${data[index]['owner_land']}", style: TextStyle(
+                                                    Text("${data[index]['owner_name']}", style: TextStyle(
                                                         fontFamily: "AVENIRLTSTD",
                                                         fontSize: getFontSize(context,2),
                                                         color: Color(0xff000000),
                                                         fontWeight: FontWeight.w800),),
 
                                                     SizedBox(height: 10,),
-                                                    Text("${data[index]['street_road']} ${data[index]['city_suburb']} ${data[index]['postcode']}", style: TextStyle(
+                                                    Text("${data[index]['owner_address']}", style: TextStyle(
                                                         fontFamily: "AVENIRLTSTD",
                                                         fontSize: getFontSize(context,2),
                                                         color: Color(0xff000000),

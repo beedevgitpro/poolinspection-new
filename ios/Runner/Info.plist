@@ -10,8 +10,14 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+<string>Photo Library Access Required</string>
+<key>NSCameraUsageDescription</key>
+<string>Camera Access Required</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone Access Required</string>
 	<key>CFBundleName</key>
-	<string>poolinspection</string>
+	<string>Pool Inspection</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

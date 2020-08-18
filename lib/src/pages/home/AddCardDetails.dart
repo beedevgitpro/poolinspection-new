@@ -9,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poolinspection/src/elements/drawer.dart';
 import 'package:poolinspection/src/models/getpaymentdetailmodel.dart';
 import 'package:poolinspection/src/models/selectCompliantOrNotice.dart';
-
+import 'package:poolinspection/constants.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:poolinspection/src/helpers/sharedpreferences/userpreferences.dart';
 import 'package:poolinspection/src/constants/validators.dart';
@@ -60,7 +60,7 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
       });
     print("useruseruser"+userId.toString());
       final response = await http.get(
-        'https://poolinspection.beedevstaging.com/api/beedev/payment-detail/$userId',
+        '$baseUrl/beedev/payment-detail/$userId',
 
       );
 
@@ -150,7 +150,7 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
    return Scaffold(
        backgroundColor: config.Colors().scaffoldColor(1),
 
-       endDrawer: drawerData(context, userRepo.user.rolesManage),
+      //  endDrawer: drawerData(context, userRepo.user.rolesManage),
      appBar: AppBar(
        leading: IconButton(
            icon: Icon(
@@ -170,9 +170,14 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
 
     ),
        actions: <Widget>[
-         IconButton(
-             icon: Icon(Icons.menu),
-             onPressed: () => _scaffoldKey.currentState.openEndDrawer())
+        //  IconButton(
+        //      icon: Icon(Icons.menu),
+        //      onPressed: () => _scaffoldKey.currentState.openEndDrawer())
+        Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            // fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+          )
        ],
        ),
        key: _scaffoldKey,
@@ -203,7 +208,7 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
      try {
        
        final response = await http.post(
-           'https://poolinspection.beedevstaging.com/api/beedev/add-payment-method',
+           '$baseUrl/beedev/add-payment-method',
            body: {
              'user_id': userid,
              'payment_method':'card',
@@ -223,8 +228,8 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
              msg: "Card Details Updated ",
              toastLength: Toast.LENGTH_SHORT,
              gravity: ToastGravity.BOTTOM,
-
-             backgroundColor: Colors.blueAccent,
+backgroundColor:
+             Theme.of(context).hintColor,
              textColor: Colors.white,
              fontSize: getFontSize(context,-2)
          );
@@ -238,8 +243,8 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
              msg: loginrespdata.messages.toString(),
              toastLength: Toast.LENGTH_SHORT,
              gravity: ToastGravity.BOTTOM,
-
-             backgroundColor: Colors.blueAccent,
+backgroundColor:
+             Theme.of(context).hintColor,
              textColor: Colors.white,
              fontSize: getFontSize(context,-2)
          );
@@ -327,7 +332,7 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
                  alignment: Alignment.centerLeft,
                   padding: new EdgeInsets.all(10.0),
                   child: Text("Card Details" ,textAlign: TextAlign.center, style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize:20,fontFamily: "AVENIRLTSTD",color:Colors.black))
+                      fontWeight: FontWeight.bold, fontSize:getFontSize(context, 3),fontFamily: "AVENIRLTSTD",color:Colors.black))
               ),
             ),
 

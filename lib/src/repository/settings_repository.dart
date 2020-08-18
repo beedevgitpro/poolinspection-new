@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:poolinspection/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 // import 'package:location/location.dart';
 import 'package:poolinspection/src/models/setting.dart';
@@ -18,7 +17,7 @@ Future<Setting> initSettings() async {
 //  getCurrentUser().then((User _user) async {
 //    final String _apiToken = 'api_token=${_user.apiToken}&';
 //  });
-  final String url = '${GlobalConfiguration().getString('api_base_url')}settings';
+  final String url = '$publicBaseUrl'+'settings';
   final response = await http.get(url, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
   if (response.statusCode == 200 && response.headers.containsValue('application/json')) {
     if (json.decode(response.body)['data'] != null) {

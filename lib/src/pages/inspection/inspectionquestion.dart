@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
+import 'package:poolinspection/constants.dart';
 import 'package:poolinspection/config/app_config.dart' as config;
 import 'package:poolinspection/src/components/responsive_text.dart';
 import 'package:poolinspection/src/controllers/inspection_controller.dart';
@@ -52,7 +52,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
       pr.show();
 
       final response = await http.post(
-          'https://poolinspection.beedevstaging.com/api/beedev/remove-booking-ans-image',
+          '$baseUrl/beedev/remove-booking-ans-image',
           body: {
             'booking_ans_id': bookingAnswerId.toString(),
             'image':image,
@@ -222,7 +222,11 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
 
         ),
         actions: <Widget>[
-
+          Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            // fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+          )
 
         ],
       ),

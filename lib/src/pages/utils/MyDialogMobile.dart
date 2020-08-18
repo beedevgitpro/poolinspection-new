@@ -206,6 +206,13 @@ class _MyDialogMobileState extends State<MyDialogMobile> {
                                 child: Row(
 
                                   children: <Widget>[
+                                    photoselected==false?Padding(
+                                      padding: EdgeInsets.fromLTRB(3, 0, 0, 2),
+                                      child:  Icon(Icons.camera_alt,color: Colors.grey,size: 25,),
+                                    ):Padding(
+                                      padding: EdgeInsets.fromLTRB(3, 0, 0, 2),
+                                      child:  Icon(Icons.photo,color: Colors.grey,size: 25,),
+                                    ),
                                     GestureDetector(
                                       onTap: () async
                                       {
@@ -227,11 +234,12 @@ class _MyDialogMobileState extends State<MyDialogMobile> {
                                         if(counter.toString()=="5")
                                           {
                                                   Fluttertoast.showToast(
+                                                  
           msg: "5 Photos Selected",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.blue,
+          backgroundColor: Theme.of(context).hintColor,
           textColor: Colors.white,
           fontSize: getFontSize(context,-2)
       );
@@ -258,18 +266,12 @@ class _MyDialogMobileState extends State<MyDialogMobile> {
                                               fontSize: getFontSize(context,0),
                                               fontWeight: FontWeight.w700,
                                               fontFamily: "AVENIRLTSTD",
-                                              color: Colors.blue),
+                                              color: Theme.of(context).accentColor),
 
                                         ),
                                       ),
                                     ) ,
-                                    photoselected==false?Padding(
-                                      padding: EdgeInsets.fromLTRB(3, 0, 0, 2),
-                                      child:  Icon(Icons.camera_alt,color: Colors.grey,size: 25,),
-                                    ):Padding(
-                                      padding: EdgeInsets.fromLTRB(3, 0, 0, 2),
-                                      child:  Icon(Icons.photo,color: Colors.grey,size: 25,),
-                                    )
+                                    
 
                                   ],
                                 )

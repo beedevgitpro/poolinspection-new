@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -300,9 +301,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                               fontWeight: FontWeight.bold),),
                               
                 CustomFormBuilderRadio(
-                
-                  activeColor: Color(0xff222222),
-
+                  activeColor: Theme.of(context).accentColor,
                   decoration: buildInputDecoration(context,
                       "Is the GST Number Applicable?", "yes or no",).copyWith(
                        enabledBorder: InputBorder.none,
@@ -627,30 +626,35 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
           attribute: 'accept_terms',
           initialValue: false,
           leadingInput: true,
-          label: GestureDetector(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => MyWebView(
-                    title:"Terms And Conditions" ,
-                    selectedUrl:"https://poolinspection.beedevstaging.com/terms-condition",
-                  )));
-            },
-            
-            child:Text(
-
-            "I have read and agree to the terms & conditions"
-                .toUpperCase(),
-            style: TextStyle(
-                color: Colors.red,
-                fontFamily:"AVENIRLTSTD",
-                fontWeight: FontWeight.bold,
-                fontSize: getFontSize(context,-5)),
-          ),
-          ),
+          label: RichText(
+  text: TextSpan(
+    text: "I have read and agree to the ",
+    style: TextStyle(
+              color: Colors.black,
+              fontFamily:"AVENIRLTSTD",
+              fontWeight: FontWeight.bold,
+              fontSize: getFontSize(context,1)),
+    children: <TextSpan>[
+      TextSpan(
+        recognizer:TapGestureRecognizer()..onTap=(){
+          Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => MyWebView(
+                  title:"Terms And Conditions" ,
+                  selectedUrl:"https://poolinspection.beedevstaging.com/terms-condition",
+                )));
+        },
+        text: 'Terms & Conditions', style: TextStyle(
+              color: Theme.of(context).accentColor,
+              fontFamily:"AVENIRLTSTD",
+              fontWeight: FontWeight.bold,
+              fontSize: getFontSize(context,1))),
+    ],
+  ),
+),
           validators: [
             FormBuilderValidators.requiredTrue(
               errorText:
-              "You must accept terms and conditions to continue",
+              "Please Accept Terms & Conditions to continue",
             ),
           ],
         ),
@@ -683,13 +687,13 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                               else
                                Flushbar(
                       title: "Device Offline",
-                      message: "Not connected to the internet",
+                      message: "Not Connected to the Internet",
                         duration: Duration(seconds: 3),
                       )..show(context);
                             }
                             )),
                 SizedBox(
-                  height: 8,
+                  height: 12,
                 ),
                 Padding(
                   padding: EdgeInsets.all(8.0),
@@ -702,7 +706,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                             onTap: (){
                               Navigator.of(context).pop();
                             },
-                                                    child: Text(' Login',style: TextStyle(color:Theme.of(context).hintColor,fontSize: getFontSize(context,0),
+                                                    child: Text(' Login',style: TextStyle(color:Theme.of(context).accentColor,fontSize: getFontSize(context,0),
                             fontFamily:"AVENIRLTSTD",),),
                           ),
                       ],

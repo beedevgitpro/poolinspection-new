@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:poolinspection/src/components/responsive_text.dart';
 import 'package:poolinspection/src/helpers/connectivity.dart';
 import 'config/app_config.dart' as config;
 import 'route_generator.dart';

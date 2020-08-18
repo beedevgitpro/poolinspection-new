@@ -20,6 +20,11 @@ class MyWebView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
+          actions: [Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            // fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+          )],
         ),
         body: WebView(
           initialUrl: selectedUrl,

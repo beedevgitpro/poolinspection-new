@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:poolinspection/src/components/responsive_text.dart';
 import 'package:poolinspection/src/controllers/report_controller.dart';
@@ -9,7 +8,6 @@ import 'package:poolinspection/src/models/route_argument.dart';
 import 'package:poolinspection/src/repository/user_repository.dart';
 import 'package:poolinspection/config/app_config.dart' as config;
 import 'package:strings/strings.dart';
-
 
 class NoticeReport extends StatefulWidget {
   final RouteArgumentReport routeArgument;
@@ -27,7 +25,6 @@ class _NoticeReportState extends StateMVC<NoticeReport> {
   }
   @override
   void initState() {
-    print("qwer=${widget.routeArgument.id}     -----------------------------------");
     _con.choice = widget.routeArgument.id;
 
     _con.reportsList(user.id, widget.routeArgument.id-4).then((onValue) {
@@ -50,12 +47,18 @@ class _NoticeReportState extends StateMVC<NoticeReport> {
               color: config.Colors().secondColor(1),
             ),
             onPressed: () => Navigator.pop(context)),
+            centerTitle: true,
         title: Text(
           widget.routeArgument.heroTag,
           style: TextStyle(
             fontFamily: "AVENIRLTSTD",
           ),
         ),
+        actions: [Image.asset(
+            "assets/img/app-iconwhite.jpg",
+            // fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+          )],
       
       ),
       body: RefreshIndicator(

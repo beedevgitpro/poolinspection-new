@@ -6,7 +6,6 @@ class App {
   double _width;
   double _heightPadding;
   double _widthPadding;
-
   App(_context) {
     this._context = _context;
     MediaQueryData _queryData = MediaQuery.of(this._context);
@@ -15,15 +14,12 @@ class App {
     _heightPadding = _height - ((_queryData.padding.top + _queryData.padding.bottom) / 100.0);
     _widthPadding = _width - (_queryData.padding.left + _queryData.padding.right) / 100.0;
   }
-
   double appHeight(double v) {
     return _height * v;
   }
-
   double appWidth(double v) {
     return _width * v;
   }
-
   double appVerticalPadding(double v) {
     return _heightPadding * v;
   }
@@ -36,7 +32,7 @@ class App {
 class Colors {
  Color _mainColor = Color(0xFF03ba95);
   Color _mainDarkColor = Color(0xFFea5c44);
-  Color _secondColor = Color(0xFF00A0DE);
+  Color _secondColor =Color(0xff0ba1d9);
   Color _secondDarkColor = Color(0xFFccccdd);
   Color _accentColor = Color(0xFF8C98A8);
   Color _accentDarkColor = Color(0xFFf1f1f1);

@@ -188,7 +188,7 @@ class _MyDialogTabletState extends State<MyDialogTablet> {
                                   {
                                     final pr=ProgressDialog(context);
                                       pr.show();
-                                    _inspectionController.getPostQuestions(widget.i,indexofrectiornoncomp, context,widget.qlist,null,isDialog:true);
+                                    _inspectionController.getPostQuestions(widget.i,indexofrectiornoncomp, context,widget.qlist,pr,isDialog:true);
                                     // Navigator.pop(context);
                                   }
                                 },
@@ -229,6 +229,13 @@ class _MyDialogTabletState extends State<MyDialogTablet> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
+                              photoselected==false?Padding(
+                                padding: EdgeInsets.fromLTRB(3, 0, 0, 2),
+                                child:  Icon(Icons.camera_alt,color: Colors.grey,size: 25,),
+                              ):Padding(
+                                padding: EdgeInsets.fromLTRB(3, 0, 0, 2),
+                                child:  Icon(Icons.add_a_photo,color: Colors.grey,size: 25,),
+                              ),
                               GestureDetector(
                                 onTap: () async{
                                   Permission.values
@@ -252,7 +259,7 @@ class _MyDialogTabletState extends State<MyDialogTablet> {
                                         toastLength: Toast.LENGTH_LONG,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.blue,
+                                        backgroundColor: Theme.of(context).hintColor,
                                         textColor: Colors.white,
                                         fontSize: getFontSize(context,-2)
                                     );
@@ -264,34 +271,19 @@ class _MyDialogTabletState extends State<MyDialogTablet> {
                                   setState(() {
                                     photoselected=true;
                                   });
-                               //    _onImageButtonPressed();
-//                                  getImage(_con.logoImage).then((val) {
-//                                    setState(() {
-//                                      _con.logoImage = val;
-//                                    });
-//                                  });
                                 },
                                 child:Text(
-                                  photoselected==false?"Take Photo":"Selected "+counter.toString()+"/5",
-// demo,
+                                  photoselected==false?" Take Photo":" Selected "+counter.toString()+"/5",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-
                                       fontSize: getFontSize(context,3),
                                       fontWeight: FontWeight.w700,
-// fontWeight: FontWeight.w500,
                                       fontFamily: "AVENIRLTSTD",
-                                      color: Colors.blue),
+                                      color: Theme.of(context).accentColor),
 
                                 ),
                               ),
-                              photoselected==false?Padding(
-                                padding: EdgeInsets.fromLTRB(3, 0, 0, 2),
-                                child:  Icon(Icons.camera,color: Colors.grey,size: 25,),
-                              ):Padding(
-                                padding: EdgeInsets.fromLTRB(3, 0, 0, 2),
-                                child:  Icon(Icons.add_a_photo,color: Colors.grey,size: 25,),
-                              ),
+                              
 
 
 
