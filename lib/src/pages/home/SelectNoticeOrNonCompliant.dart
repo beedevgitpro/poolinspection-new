@@ -76,8 +76,7 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
 
    var response;
     await pr.show();
-    print("bookbook"+bookingDate.toString());
-    print("bookbooktime"+bookingTime.substring(11,16).toString());
+   
     try
     {
       response = await http.post(
@@ -206,9 +205,7 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
                             ),
                             color: Theme.of(context).accentColor,
                             onPressed: () {
-
-
-
+                                  if(_formNKey.currentState.saveAndValidate())
                                   selectnoncompliantornotice("non-compliant",_formNKey.currentState.value['booking_date_time'].toString(),_formNKey.currentState.value['booking_time'].toString());
 
                             }
@@ -235,8 +232,7 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
                                 if(_formNKey.currentState.saveAndValidate())
 
                                 {
-                                  print("selectbookdate"+_formNKey.currentState.value['booking_date_time'].toString());
-                                  print("selectbooktime"+_formNKey.currentState.value['booking_time'].toString());
+                                  
                                   selectnoncompliantornotice("notice",_formNKey.currentState.value['booking_date_time'].toString(),_formNKey.currentState.value['booking_time'].toString());
                                 }
 
@@ -268,7 +264,6 @@ class _SelectNoticeOrNonCompliantState extends State<SelectNoticeOrNonCompliant>
         },
 
         child:Padding(
-
           padding: const EdgeInsets.all(8.0),
           child: listView(context),
         ));

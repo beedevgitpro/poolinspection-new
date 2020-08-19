@@ -621,7 +621,7 @@ SizedBox(height:3),
                          focusedBorder: InputBorder.none,
                          focusedErrorBorder: InputBorder.none, ),
                     attribute: 'accept_terms',
-                    initialValue: true,
+                    initialValue: false,
                     leadingInput: true,
 
                     label: RichText(
@@ -652,7 +652,7 @@ SizedBox(height:3),
                     validators: [
                       FormBuilderValidators.requiredTrue(
                         errorText:
-                        "You must accept Important Inspector Advice",
+                        "Please Accept Terms & Conditions to continue",
                       ),
                     ],
                   ),

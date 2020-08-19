@@ -209,9 +209,14 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
               Icons.arrow_back_ios,
               color: config.Colors().secondColor(1),
             ),
-            onPressed: () => Navigator.pop(context,true)),
+            onPressed: (){
+              for(int i=widget.entryIndex;i<=widget.i;i++)
+              Navigator.pop(context,true);
+              
+              }),
+              centerTitle: true,
         title: Align(alignment: Alignment.topCenter,
-          child:Text("Building Regulations              ",
+          child:Text("Building Regulations",
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontFamily: "AVENIRLTSTD",
@@ -466,7 +471,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
                                       { 
                                         final pr=ProgressDialog(context);
                                         pr.show();
-                                        _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index, context,widget.questionsList,pr);
+                                        _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index,context,widget.questionsList,pr);
                                         
                                        
                                       }
@@ -837,11 +842,10 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
 
                                         if(_inspectionController.sampleData[index].buttonText=="Rectification Required"||
                                             _inspectionController.sampleData[index].buttonText=="Non Compliant") MediaQuery.of(context).size.width<=600?showdialogmobile(1,index):showdialogtablet(1, index);
-//
                                             else
                                             {final pr=ProgressDialog(context);
                                             pr.show();
-                                        _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index, context,widget.questionsList,pr);}
+                                        _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index,context,widget.questionsList,pr);}
 
 
                                       },

@@ -85,7 +85,7 @@ class _MyDialogMobileState extends State<MyDialogMobile> {
     }
 
     Flushbar(
-      title: "Image selected",
+      title: "Image Selected",
       message: "Please Submit Answer",
       duration: Duration(seconds: 3),
     )..show(context);
@@ -100,7 +100,7 @@ class _MyDialogMobileState extends State<MyDialogMobile> {
 
       contentPadding: EdgeInsets.all(2.0),
       backgroundColor:Color(0xffd3d3d3),
-      content:StatefulBuilder(  // You need this, notice the parameters below:
+      content:StatefulBuilder( 
         builder: (BuildContext context, StateSetter setState) {
 
           return Container(
