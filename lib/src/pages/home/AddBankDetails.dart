@@ -251,10 +251,6 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
                 
                 if(snapshot.data.paymentDetail.accountName!=null)
                 {
-
-
-
-
                 accountName=snapshot.data.paymentDetail.accountName;
                 accountNumber=snapshot.data.paymentDetail.accountNumber;
                 bSBNumber=snapshot.data.paymentDetail.bsbNumber;

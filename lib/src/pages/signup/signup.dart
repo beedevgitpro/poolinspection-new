@@ -563,11 +563,11 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                     FormBuilderValidators.required()
                   ],
                 ),
-                SizedBox(height: 2,),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child:
-                  Text("Note: Strong Password is required",style: TextStyle(color:Color(0xff222222),fontSize: getFontSize(context,-4), fontFamily: "AVENIRLTSTD"),),),
+                // SizedBox(height: 2,),
+                // Align(
+                //   alignment: Alignment.topLeft,
+                //   child:
+                //   Text("Note: Strong Password is required",style: TextStyle(color:Color(0xff222222),fontSize: getFontSize(context,-4), fontFamily: "AVENIRLTSTD"),),),
 
                 sizedBox,
                 sizedBox,
