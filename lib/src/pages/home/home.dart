@@ -242,7 +242,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
       appBar: AppBar(
         title: Text("Dashboard",
             style: TextStyle(
-                fontSize: getFontSize(context,3),
+                fontSize: getFontSize(context,4),
                 fontFamily: "AVENIRLTSTD",
                 // fontWeight: FontWeight.bold,
                 color: Color(0xff222222))),
@@ -313,9 +313,9 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                         child: Column(
                           children: [
                             buildUpcomingInspections(context,
-                                data['newlist']),
+                                data['newlist'].reversed.toList()),
                             buildCompletedInspections(context,
-                                data['reinspection_list']),
+                                data['reinspection_list'].reversed.toList()),
                           ],
                         ),
                       ),
@@ -339,7 +339,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                         onPressed: () async {
                           checkPaymentDetail();
                         }
-                        
                         ),
                   ),
                 ]),
@@ -376,8 +375,8 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             )
             :
             MediaQuery.of(context).size.width <= 600
-                ? mobileEntryList(data)
-                : tabletEntryList(data),
+                ? mobileEntryList(data,isCompleted:false)
+                : tabletEntryList(data,isCompleted: false),
           ],
         ),
       ),
@@ -959,15 +958,27 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                     ),
                                   ),
                                 ),
-                                          Text(
-                                            "",
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                                fontFamily: "AVENIRLTSTD",
-                                                fontSize: getFontSize(context,0),
-                                                color: Color(0xffffffff),
-                                                fontWeight: FontWeight.w800),
-                                          ),
+                                if(!isCompleted)
+                                          Padding(
+                                  padding:  EdgeInsets.fromLTRB(4, 4, 4, 0),
+                                  child:  FlatButton(
+                                    onPressed: () {},
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                             BorderRadius.circular(5.0),side: BorderSide(
+                                               color: Theme.of(context).accentColor,
+                                             )),
+                                    child: Text(
+                                      data[index]['inspection_type'].toUpperCase(),
+                                      style: TextStyle(
+                                          fontSize: getFontSize(context,-5),
+                                          color: Theme.of(context).accentColor,
+                                          fontFamily: "AVENIRLTSTD",
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ),
                                           Text(
                                             "",
                                             maxLines: 2,
@@ -1013,6 +1024,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
       shrinkWrap: true,
       itemCount: data.length,
       itemBuilder: (context, index) {
+      
         DateTime date = DateTime.now();
         DateTime mondaydateofcurrentdate =
             DateTime.now().subtract(new Duration(days: date.weekday - 1));
@@ -1050,7 +1062,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                       ),
                 child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: EdgeInsets.symmetric(vertical: 8.0,horizontal:8),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -1144,7 +1156,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                           ),
                           isCompleted? Padding(
                                   padding: new EdgeInsets.fromLTRB(4, 4, 4, 0),
-                                  child: new RaisedButton(
+                                  child: new FlatButton(
                                     onPressed: () {},
                                     color: Theme.of(context).hintColor,
                                     shape: RoundedRectangleBorder(
@@ -1178,7 +1190,28 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                           fontWeight: FontWeight.normal),
                                     ),
                                   ),
-                                )
+                                ),
+                                if(!isCompleted)
+                                Padding(
+                                  padding:  EdgeInsets.fromLTRB(4, 4, 4, 0),
+                                  child:  FlatButton(
+                                    onPressed: () {},
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                             BorderRadius.circular(5.0),side: BorderSide(
+                                               color: Theme.of(context).accentColor,
+                                             )),
+                                    child: Text(
+                                      '${data[index]['inspection_type']}'.toUpperCase(),
+                                      style: TextStyle(
+                                          fontSize: getFontSize(context,-5),
+                                          color: Theme.of(context).accentColor,
+                                          fontFamily: "AVENIRLTSTD",
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ),
                           
                         ]),
                   ),

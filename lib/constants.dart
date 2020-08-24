@@ -1,2 +1,2 @@
-const baseUrl= 'https://poolinspection.beedevstaging.com/api';
-const publicBaseUrl='http://poolinspection.beedevstaging.com/developer/public/api/';
+const baseUrl= 'https://pia.bdstaging.com.au/api';
+const publicBaseUrl='https://pia.bdstaging.com.au/api/';

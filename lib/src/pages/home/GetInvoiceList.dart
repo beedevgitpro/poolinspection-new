@@ -83,7 +83,7 @@ class _InvoiceListClassState extends State<InvoiceListClass> {
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontFamily: "AVENIRLTSTD",
-                fontSize: getFontSize(context,2),
+                fontSize: getFontSize(context,4),
                 color: Color(0xff222222),
               ),
             ),
@@ -143,7 +143,6 @@ class _InvoiceListClassState extends State<InvoiceListClass> {
 
                   return  Column(
                       children: <Widget>[
-                        // _createSearchView(),
                         Expanded(
                             child:ListView.builder(
                               itemCount: snapshot.data.invoiceList.length,

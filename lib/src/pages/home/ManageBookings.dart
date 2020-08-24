@@ -76,7 +76,7 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
         appBar: AppBar(
           title: Text("Manage Bookings",
               style: TextStyle(
-                  fontSize: getFontSize(context,2),
+                  fontSize: getFontSize(context,4),
                     fontFamily: "AVENIRLTSTD",
                   // fontWeight: FontWeight.bold,
                   color: Color(0xff222222))),
@@ -333,33 +333,55 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                  children: <Widget>[
                                 Expanded(
-                                  flex: 1,
-                                  child:Text("#", style: TextStyle(
-                                      fontFamily: "AVENIRLTSTD",
-                                      fontSize: getFontSize(context,2),
-                                      color: Color(0xff000000),
-                                      fontWeight: FontWeight.w800),),
-                                ),
-
-                       Expanded(child:Text("Owner's Name & Address", style: TextStyle(
-                           fontFamily: "AVENIRLTSTD",
-                           fontSize: getFontSize(context,2),
-                           color: Color(0xff000000),
-                           fontWeight: FontWeight.w800),) ,flex: 2,),
-
-                       Expanded(
-                         child:  Align(child: Text("Date/Time", style: TextStyle(
-                             fontFamily: "AVENIRLTSTD",
-                             fontSize: getFontSize(context,2),
-                             color: Color(0xff000000),
-                             fontWeight: FontWeight.w800),),alignment: Alignment.center,),flex: 2,
-                       ),
-
-                       Expanded(child:Align(child: Text("Contact", style: TextStyle(
-                           fontFamily: "AVENIRLTSTD",
-                           fontSize: getFontSize(context,2),
-                           color: Color(0xff000000),
-                           fontWeight: FontWeight.w800),),alignment: Alignment.center,),flex: 1,),
+                    flex: 1,
+                    child: Text(
+                      "#",
+                      style: TextStyle(
+                          fontFamily: "AVENIRLTSTD",
+                          fontSize: getFontSize(context,2),
+                          color: Color(0xff000000),
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "Owner Details",
+                      style: TextStyle(
+                          fontFamily: "AVENIRLTSTD",
+                          fontSize: getFontSize(context,2),
+                          color: Color(0xff000000),
+                          fontWeight: FontWeight.w800),
+                    ),
+                    flex: 2,
+                  ),
+                  Expanded(
+                    child: Align(
+                      child: Text(
+                        "Date/Time",
+                        style: TextStyle(
+                            fontFamily: "AVENIRLTSTD",
+                            fontSize: getFontSize(context,2),
+                            color: Color(0xff000000),
+                            fontWeight: FontWeight.w800),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    flex: 2,
+                  ),
+                  Expanded(
+                    child: Align(
+                      child: Text(
+                        "Status",
+                        style: TextStyle(
+                            fontFamily: "AVENIRLTSTD",
+                            fontSize: getFontSize(context,2),
+                            color: Color(0xff000000),
+                            fontWeight: FontWeight.w800),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    flex: 2,
+                  ),
 
 
                                  ]
@@ -385,15 +407,6 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
                                 print("errorinbookingdate="+bookingDate.toString());
 
                                 differencedate = mondayofbookingDate.difference(mondaydateofcurrentdate).inDays;
-
-//                                print("qxcurrentday=${date.weekday}");
-//                                print("qxmondayofcurrentdate="+mondaydateofcurrentdate.toString());
-//                                print("qxmondayofbookingdate="+mondayofbookingDate.toString());
-//                                print("qxbookingday=${bookingDate.weekday}");
-//                                print("qxcurrentdate=$date");
-//                                print("qxbookingdate=$bookingDate");
-//                                print("lqxdifference=$differencedate");
-                                // print(data[index]['is_confirm']);
                                 return InkWell(
                                   onTap: () {
                                     print("goku"+data[index]['booking_time']);
@@ -429,35 +442,52 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: <Widget>[
 
-                                                    Text((++ax).toString(), style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,3),
-                                                        color: Color(0xff000000),
-                                                        fontWeight: FontWeight.normal),),
-
-                                                    Text("",maxLines: 2, style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,0),
-                                                        color: Color(0xffffffff),
-                                                        fontWeight: FontWeight.w800),),
-
-                                                    Text("", style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,0),
-                                                        color: Color(0xffffffff),
-                                                        fontWeight: FontWeight.w800),),
-
-                                                    Text("", style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,0),
-                                                        color: Color(0xffffffff),
-                                                        fontWeight: FontWeight.w800),),
-                                                    Text("", style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,0),
-                                                        color: Color(0xffffffff),
-                                                        fontWeight: FontWeight.w800),),
-                                                    SizedBox(height: 15,),
+                                                    Text(
+                                            "${index+1}",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,3),
+                                                color: Color(0xff000000),
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          Text(
+                                            "",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                         Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          
+                                          SizedBox(
+                                            height: 15,
+                                          ),
 
 
                                                   ]
@@ -465,139 +495,183 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
                                               Expanded(child:Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: <Widget>[
+Text(
+                                            capitalize(
+                                                "${data[index]['owner_name']}"),
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,2),
+                                                color: Color(0xff000000),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "${data[index]['owner_address']}",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,2),
+                                                color: Color(0xff000000),
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "${data[index]['phonenumber']}",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,2),
+                                                color: Color(0xff000000),
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
 
-                                                    Text("${data[index]['owner_name']}", style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,2),
-                                                        color: Color(0xff000000),
-                                                        fontWeight: FontWeight.w800),),
-
-                                                    SizedBox(height: 10,),
-                                                    Text("${data[index]['owner_address']}", style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,2),
-                                                        color: Color(0xff000000),
-                                                        fontWeight: FontWeight.normal),),
-
-                                                    SizedBox(height: 10,),
-                                                    data[index]['is_compliant'] == 3 || data[index]['is_confirm'] == 1? Padding(
-                                                      padding: new EdgeInsets.fromLTRB(4,4, 4,4), child:new RaisedButton(
-                                                      onPressed:() {
-
-                                                      },
-                                                      color:Color(0xff20c67e),
-                                                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0)),
-                                                      child:Text(
-                                                        "BOOKING CONFIRMED",
-                                                        style: TextStyle(
-                                                            fontSize: getFontSize(context,-5),
-                                                            color: Color(0xffFFFFFF), fontFamily: "AVENIRLTSTD",fontWeight: FontWeight.normal),
-                                                      ),
-
-
-                                                    ),
-                                                    ):Padding(
-                                                      padding: new EdgeInsets.fromLTRB(4,4, 4,4), child:new RaisedButton(
-                                                      onPressed:() {
-
-                                                      },
-                                                      color:Colors.redAccent,
-                                                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0)),
-                                                      child:Text(
-                                                        "BOOKING NOT CONFIRMED",
-                                                        style: TextStyle(
-                                                            fontSize: getFontSize(context,-5),
-                                                            color: Color(0xffFFFFFF), fontFamily: "AVENIRLTSTD",fontWeight: FontWeight.normal),
-                                                      ),
-
-
-                                                    ),
-
-                                                    ),
-
-                                                    SizedBox(height: 10,),
-
+                                                  
 
                                                   ]
                                               ),flex: 2,) ,
                                               Expanded(child: Column(
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
-//data[index]['booking_date_time'].toString().substring(8,10)+":"+data[index]['booking_date_time'].toString().substring(5,7)+":"+
-//                                                    Text(DateFormat.yMMMMd('en_US').format(DateTime.parse("${data[index]['booking_date_time']} ".substring(0,10))).toString(), style: TextStyle(
-                                                    Align(
 
-                                                      child: Text(DateFormat("dd-MM-yyyy").format(DateTime.parse("${data[index]['booking_date_time'].toString().substring(0,10)} "+"00:00:00.000z")).toString(), style: TextStyle(
-                                                          fontFamily: "AVENIRLTSTD",
-                                                          fontSize: getFontSize(context,2),
-                                                          color: Color(0xff000000),
-                                                          fontWeight: FontWeight.normal),),
-                                                    ),
-
-                                                    SizedBox(height: 8,),
-                                                    Text(DateFormat.jm().format(DateTime.parse("2012-07-07 "+"${data[index]['booking_time']}"))+"   ",style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,2),
-                                                        color: Color(0xff000000),
-                                                        fontWeight: FontWeight.normal),),
-
-                                                    SizedBox(height: 10,),
-                                                    data[index]['percentage'] == 0? Padding(
-                                                      padding: new EdgeInsets.fromLTRB(4,4, 4,4), child:new RaisedButton(
-                                                      onPressed:() {
-
-                                                      },
-                                                      color:Colors.blueAccent,
-                                                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0)),
-                                                      child:Text(
-                                                        "NEW JOB  ",
-                                                        style: TextStyle(
-                                                            fontSize: getFontSize(context,-5),
-                                                            color: Color(0xffFFFFFF), fontFamily: "AVENIRLTSTD",fontWeight: FontWeight.normal),
-                                                      ),
-
-
-                                                    ),
-                                                    ):Padding(
-                                                      padding: new EdgeInsets.fromLTRB(4,4, 4,4), child:new RaisedButton(
-                                                      onPressed:() {
-
-                                                      },
-                                                      color:Colors.orange,
-                                                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0)),
-                                                      child:Text(
-                                                        "ONGOING INSPECTION",
-                                                        style: TextStyle(
-                                                            fontSize: getFontSize(context,-5),
-                                                            color: Color(0xffFFFFFF), fontFamily: "AVENIRLTSTD",fontWeight: FontWeight.normal),
-                                                      ),
-
-
-                                                    ),
-
-                                                    ),
-                                                    SizedBox(height: 6,),
+                                                   Align(
+                                            child: Text(
+                                              DateFormat("dd-MM-yyyy")
+                                                  .format(DateTime.parse(
+                                                      "${data[index]['booking_date_time'].toString().substring(0, 10)} " +
+                                                          "00:00:00.000z"))
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontFamily: "AVENIRLTSTD",
+                                                  fontSize: getFontSize(context,2),
+                                                  color: Color(0xff000000),
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            DateFormat.jm().format(DateTime
+                                                    .parse("2012-07-07 " +
+                                                        "${data[index]['booking_time']}")) +
+                                                "   ",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,2),
+                                                color: Color(0xff000000),
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          Text(
+                                            "",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
                                                   ]
                                               ),flex: 2,),
                                               Expanded(child:Column(
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
 
-                                                    Text("${data[index]['phonenumber']}", style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,2),
-                                                        color: Color(0xff000000),
-                                                        fontWeight: FontWeight.normal),),
-
-                                                    Text("", style: TextStyle(
-                                                        fontFamily: "AVENIRLTSTD",
-                                                        fontSize: getFontSize(context,2),
-                                                        color: Color(0xffffffff),
-                                                        fontWeight: FontWeight.normal),),
-
-                                                    SizedBox(height: 80,),
+                                                    Padding(
+                                                  padding:
+                                                      new EdgeInsets.fromLTRB(
+                                                          4, 4, 4, 4),
+                                                  child: new RaisedButton(
+                                                    onPressed: () {},
+                                                    color: data[index]['certificate_generated_data']==null?Colors.amber[600]:Color(0xff20c67e),
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            new BorderRadius
+                                                                .circular(5.0)),
+                                                    child: Text(
+                                                      data[index]['certificate_generated_data']==null?"Upcoming".toUpperCase():"Submitted".toUpperCase(),
+                                                      style: TextStyle(
+                                                          fontSize: getFontSize(context,-5),
+                                                          color:
+                                                              Color(0xffFFFFFF),
+                                                          fontFamily:
+                                                              "AVENIRLTSTD",
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                            "",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                                Text(
+                                            "",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: "AVENIRLTSTD",
+                                                fontSize: getFontSize(context,0),
+                                                color: Color(0xffffffff),
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
                                                   ]
-                                              ),flex: 1,),
+                                              ),flex: 2,),
 
                                             ]
                                         ),

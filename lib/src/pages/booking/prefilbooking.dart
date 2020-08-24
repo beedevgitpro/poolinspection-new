@@ -148,12 +148,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
                                                 
                                                   if (_fbKey.currentState
                                                       .validate()) {
-                                                    print("Bookingtimegoku" +
-                                                        _fbKey
-                                                            .currentState
-                                                            .value[
-                                                                'booking_time']
-                                                            .toString());
+                                                    
 
                                                     _fbKey.currentState
                                                             .initialValue[
@@ -805,7 +800,7 @@ class _PreliminaryWidgetState extends StateMVC<PreliminaryWidget> {
               ),
 
               CustomFormBuilderRadio(
-                activeColor: Color(0xFF00A0DE),
+                activeColor: Theme.of(context).accentColor,
                 decoration: buildInputDecoration(context,
                     "Has the inspection fee payment been made?", "Yes/No").copyWith(
                       border: InputBorder.none,

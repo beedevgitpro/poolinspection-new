@@ -6,7 +6,6 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:poolinspection/src/components/responsive_text.dart';
@@ -15,8 +14,7 @@ import 'package:poolinspection/src/models/route_argument.dart';
 import 'package:poolinspection/src/pages/home/SelectNoticeOrNonCompliant.dart';
 import 'package:poolinspection/src/pages/inspection/inspectionquestion.dart';
 import 'package:poolinspection/src/pages/utils/customradio.dart';
-import 'package:poolinspection/src/repository/booking_repository.dart'
-    as repository;
+import 'package:poolinspection/src/repository/booking_repository.dart' as repository;
 import 'package:strings/strings.dart';
 
 class QuestionData {

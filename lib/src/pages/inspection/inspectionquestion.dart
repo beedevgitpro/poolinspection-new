@@ -102,7 +102,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
       pr.hide();
       print("ErrorInDeleteImageBackend"+e.toString());
       Fluttertoast.showToast(
-          msg: "ErrorInDeleteImageBackend"+e.toString(),
+          msg: "Couldn't Delete Image"+e.toString(),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -200,7 +200,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: config.Colors().scaffoldColor(1),
+      backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         elevation: 0,
@@ -220,7 +220,7 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontFamily: "AVENIRLTSTD",
-              fontSize: getFontSize(context,2),
+              fontSize: getFontSize(context,4),
               color: Color(0xff222222),
             ),
           ),
@@ -239,15 +239,13 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
 
       body: widget.question == null
           ? CircularProgressIndicator()
-          : Column(
+          : SingleChildScrollView(
+                      child: Column(
        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Flexible(
-            flex: 10,
-            child: SingleChildScrollView(
-              child: Container(
+             Container(
 
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(color: config.Colors().scaffoldColor(1)),
                   child:  Padding(
                     padding: EdgeInsets.fromLTRB(18, 10,10, 10),
                     child: Align(
@@ -256,557 +254,178 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
                     ),
                   )
               ),
-            ),
-          ),
-
-          SizedBox(height: 20,),
-          Flexible(
-           flex: 8,
-         child:SingleChildScrollView(
-           child:  Padding(
-             padding: EdgeInsets.fromLTRB(20, 8, 8, 8),
-             child:Text(widget.question['heading_name'].toString(),
-               style: TextStyle(fontSize: getFontSize(context,2), color: Colors.black,  fontFamily: "AVENIRLTSTD",fontWeight: FontWeight.w700),),),
-         )
-
-         ),
-          MediaQuery.of(context).size.width<=600?Expanded(
-            flex: 40,
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-                child:  Container(
-                  color: Theme.of(context).primaryColor,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                     SizedBox(height: 10,),
-                     ListTile(
-                         title: Row(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: <Widget>[
-                             Expanded(child:Align(
-
-                               child: Padding(
-                                 padding: EdgeInsets.fromLTRB(8, 4, 8, 6),
-                                 child: Text(
-                                   ("Q${widget.i + 1}.").toString()+" "+widget.question['question'],
-                                   // demo,
-                                   textAlign: TextAlign.left,
-                                   style: TextStyle(
-                                       fontSize: getFontSize(context,3),
-                                       // fontWeight: FontWeight.w500,
-                                       fontFamily: "AVENIRLTSTD",
-                                       color: Color(0xff222222)),
-                                 ),
-                               ),
-                               alignment: Alignment.centerLeft,
-                             )
-                             ),
-
-                           ],),
-
-                         subtitle:Padding(
-                           padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                           child: GestureDetector(
-                             onTap: ()
-                             {
-                               bool show=false;
-
-                                 showDialog(
-                                   context: context,
-                                   builder: (BuildContext context) {
-                                     return StatefulBuilder(
-                                     builder: (context, setState) {
-                                       return  SingleChildScrollView(
-                                           child:AlertDialog(
-
-                                         content: Column(
-                                           mainAxisSize: MainAxisSize.min,
-                                           children: <Widget>[
-                                            Align(
-
-                                                 child: GestureDetector(
-
-                                                   onTap: ()
-                                                   {
-                                                     Navigator.of(context).pop();
-                                                   },
-                                                   child: Icon(Icons.clear,color: Colors.grey,),
-                                                 ),
-                                                 alignment: Alignment.topRight,
-                                               ),
-                                             SizedBox(height: 10,),
-                                             Flexible(child:
-                                            SingleChildScrollView(
-                                              child:  Text(
-                                                widget.question['hint']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontFamily: "AVENIRLTSTD",
-                                                    color: Colors.black,
-                                                    fontSize: getFontSize(context,0)),
-                                              ),
-                                            )
-                                             ),
-                                             SizedBox(height: 20,),
-                                             widget.question['file_name']!=null?Flexible(
-                                                 child: GestureDetector(
-
-                                                   child: Text(
-                                                     "Show Image",
-                                                     style: TextStyle(
-                                                         fontFamily: "AVENIRLTSTD",
-                                                         color: Colors.blueAccent,
-                                                         fontSize: getFontSize(context,0)),
-                                                   ),
-                                                   onTap: () {
-                             setState(() {
-                               print("imgend"+GlobalConfiguration().getString('api_question_image').toString()+widget.question['destination'].toString()+widget.question['file_name'].toString());
-                              
-                               show == false
-                                   ? show = true
-                                   : show = false;
-                             });
-                                                   },
-
-                                                 )
-                                             ):Container(),
-                                             show==true?Flexible(child: show == true
-                                                 ? Divider(thickness: 2,)
-                                                 : Container(),):Container(),
-
-
-                                             show==true?show == true
-                                                     ?Container(
-
-                                               child: Image.network(
-                                                   parts[0].toString(),
-
-                                                   fit: BoxFit.fitWidth)
-                                             )
-
-
-                                                     : Container()
-                                             :Container(),
-
-                                             show==true && parts.length>1?show == true
-                                                 ?Container(
-
-                                                 child: Image.network(
-                                       GlobalConfiguration().getString('api_question_image').toString()+widget.question['hint_img_destination'].toString()+"/"+ parts[1].toString(),
-
-                                                     fit: BoxFit.fitWidth)
-                                             )
-
-
-                                                 : Container()
-                                                 :Container()
-
-                                           ],
-                                         ),
-                                       )
-                                       );
-                                     }
-                             );
-
-                                   },
-                                 );
-
-
-
-
-
-                             },
-                             child: Text(
-
-                               "More Info.",
-
-                               // demo,
-                               textAlign: TextAlign.left,
-                               style: TextStyle(
-
-                                   fontSize: getFontSize(context,2),
-                                   fontWeight: FontWeight.w700,
-                                   // fontWeight: FontWeight.w500,
-                                   fontFamily: "AVENIRLTSTD",
-                                   color: Colors.blueAccent),
-
-                             ),
-                           ),
-                         )
-
-                       ),
-
-                        MediaQuery.of(context).size.width<=600?SizedBox(height: 30):SizedBox(height: 90,),
-
-
-                        _inspectionController.confirmLoader
-                            ? SizedBox(
-                            width: 35,
-                            child: Center(child: CircularProgressIndicator()))
-                            : Container(
-                          
-                          height: config.App(context).appHeight(widget.question['ans'].toString()=="3"?(
-                              partImageName.length==0?55:partImageName.length==1?85:partImageName.length==2?125:partImageName.length==3?155:partImageName.length==4?215:215
-                          ):55),
-                          child: Column(
-
-                            children: <Widget>[                        
-                              Expanded(
-
-                                child: ListView.builder(
-
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: _inspectionController.sampleData.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return new InkWell(
-
-                                  
-                                    onTap: () {
-
-                                     if(_inspectionController.sampleData[index].buttonText=="Rectification Required"||
-                                          _inspectionController.sampleData[index].buttonText=="Non Compliant") MediaQuery.of(context).size.width<=600?showdialogmobile(1,index):showdialogtablet(1, index);
-                                     else
-                                      { 
-                                        final pr=ProgressDialog(context);
-                                        pr.show();
-                                        _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index,context,widget.questionsList,pr);
-                                        
-                                       
-                                      }
-                                      
-
-                                    },
-
-                                    child:widget.question['question_type'].toString()=="0"?index<=2?new RadioItem(_inspectionController.sampleData[index]):Container()
-                                    :index>=3?new RadioItem(_inspectionController.sampleData[index]):Container(),
-
-                                  );
-                                },
-                              ),
-                              ),
-
-                              partImageName.length>=1&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 0, 25, 15),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[0].toString(),widget.question['booking_id'],0);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ):Container(),
-                              partImageName.length>=1&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[0]}",
-                                    fit: BoxFit.fill,
-
-
-                                  )
-                              ):Container(),
-
-                              partImageName.length>=2&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[1].toString(),widget.question['booking_id'],1);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ):Container(),
-                              partImageName.length>=2&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[1]}",
-                                    fit: BoxFit.fill,
-
-
-                                  )
-                              ):Container(),
-
-
-                              partImageName.length>=3&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[2].toString(),widget.question['booking_id'],2);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ):Container(),
-                              partImageName.length>=3&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[2]}",
-                                    fit: BoxFit.fill,
-
-
-                                  )
-                              ):Container(),
-
-
-                              partImageName.length>=4&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[3].toString(),widget.question['booking_id'],3);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ):Container(),
-                              partImageName.length>=4&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[3]}",
-                                    fit: BoxFit.fill,
-
-
-                                  )
-                              ):Container(),
-
-                              partImageName.length>=5&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[4].toString(),widget.question['booking_id'],4);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ):Container(),
-                              partImageName.length>=5&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[4]}",
-                                    fit: BoxFit.fill,
-
-
-                                  )
-                              ):Container(),
-
-
-                            ],
-                          )
-
-                        ),
-
-                      ],
-                    ),
-                  ),
-                )
-            ),
-            ): Expanded(    //this for tablet
-            flex: 90,
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+   
+
+            
+            Container(
+              width: double.infinity,
+              color: config.Colors().scaffoldColor(1),
+              padding: EdgeInsets.fromLTRB(20, 28, 8, 8),
+              child:Text(widget.question['heading_name'].toString(),
+                style: TextStyle(fontSize: getFontSize(context,2), color: Colors.black,  fontFamily: "AVENIRLTSTD",fontWeight: FontWeight.w800),),),
+            Padding(
+                padding: EdgeInsets.all(12),
                 child:  Container(
                   color: Theme.of(context).primaryColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 10,),
-                      ListTile(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(child:Align(
+                   SizedBox(height: 10,),
+                   ListTile(
+                       title: Row(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: <Widget>[
+                           Expanded(child:Align(
+                             child: Padding(
+                               padding: EdgeInsets.fromLTRB(8, 4, 8, 6),
+                               child: Text(
+                                 ("Q${widget.i + 1}.").toString()+" "+widget.question['question'],
+                                 // demo,
+                                 textAlign: TextAlign.left,
+                                 style: TextStyle(
+                                     fontSize: getFontSize(context,3),
+                                     // fontWeight: FontWeight.w500,
+                                     fontFamily: "AVENIRLTSTD",
+                                     color: Color(0xff222222)),
+                               ),
+                             ),
+                             alignment: Alignment.centerLeft,
+                           )
+                           ),
 
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(8, 4, 8, 6),
-                                  child: Text(
-                                    ("Q${widget.i + 1}.").toString()+" "+widget.question['question'],
-                                 
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontSize: getFontSize(context,3),
-                                      
-                                        fontFamily: "AVENIRLTSTD",
-                                        color: Color(0xff222222)),
-                                  ),
-                                ),
-                                alignment: Alignment.centerLeft,
-                              )
-                              ),
+                         ],),
 
-                            ],),
+                       subtitle:Padding(
+                         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                         child: GestureDetector(
+                           onTap: ()
+                           {
+                             bool show=false;
 
-                          subtitle:Padding(
-                            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: GestureDetector(
-                              onTap: ()
-                              {
-                                bool show=false;
+                               showDialog(
+                                 context: context,
+                                 builder: (BuildContext context) {
+                                   return StatefulBuilder(
+                                   builder: (context, setState) {
+                                     return  SingleChildScrollView(
+                                         child:AlertDialog(
 
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    // return object of type Dialog
-                                    return StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return  SingleChildScrollView(
-                                              child:AlertDialog(
+                                       content: Column(
+                                         mainAxisSize: MainAxisSize.min,
+                                         children: <Widget>[
+                                          Align(
 
-                                                content: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: <Widget>[
-                                                    Align(
+                                               child: GestureDetector(
 
-                                                      child: GestureDetector(
+                                                 onTap: ()
+                                                 {
+                                                   Navigator.of(context).pop();
+                                                 },
+                                                 child: Icon(Icons.clear,color: Colors.grey,),
+                                               ),
+                                               alignment: Alignment.topRight,
+                                             ),
+                                           SizedBox(height: 10,),
+                                           Flexible(child:
+                                          SingleChildScrollView(
+                                            child:  Text(
+                                              widget.question['hint']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontFamily: "AVENIRLTSTD",
+                                                  color: Colors.black,
+                                                  fontSize: getFontSize(context,0)),
+                                            ),
+                                          )
+                                           ),
+                                           SizedBox(height: 20,),
+                                           widget.question['file_name']!=null?Flexible(
+                                               child: GestureDetector(
 
-                                                        onTap: ()
-                                                        {
-                                                          Navigator.of(context).pop();
-                                                        },
-                                                        child: Icon(Icons.clear,color: Colors.grey,),
-                                                      ),
-                                                      alignment: Alignment.topRight,
-                                                    ),
-                                                    SizedBox(height: 10,),
-                                                    Flexible(child:
-                                                    SingleChildScrollView(
-                                                      child:  Text(
-                                                        widget.question['hint']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontFamily: "AVENIRLTSTD",
-                                                            color: Colors.black,
-                                                            fontSize: getFontSize(context,0)),
-                                                      ),
-                                                    )
-                                                    ),
-                                                    SizedBox(height: 20,),
-                                                    widget.question['file_name']!=null?Flexible(
-                                                        child: GestureDetector(
+                                                 child: Text(
+                                                   "Show Image",
+                                                   style: TextStyle(
+                                                       fontFamily: "AVENIRLTSTD",
+                                                       color: Colors.blueAccent,
+                                                       fontSize: getFontSize(context,0)),
+                                                 ),
+                                                 onTap: () {
+                           setState(() {
+                             print("imgend"+GlobalConfiguration().getString('api_question_image').toString()+widget.question['destination'].toString()+widget.question['file_name'].toString());
+                            
+                             show == false
+                                 ? show = true
+                                 : show = false;
+                           });
+                                                 },
 
-                                                          child: Text(
-                                                            "Show Image",
-                                                            style: TextStyle(
-                                                                fontFamily: "AVENIRLTSTD",
-                                                                color: Colors.blueAccent,
-                                                                fontSize: getFontSize(context,0)),
-                                                          ),
-                                                          onTap: () {
-                                                            setState(() {
-                                                              print("imgend"+GlobalConfiguration().getString('api_question_image').toString()+widget.question['destination'].toString()+widget.question['file_name'].toString());
-                                                              // print("urlofimagehint"+GlobalConfiguration().toString()+"/"+widget.question['destination'].toString()+"/"+widget.question['images'].toString());
-                                                              show == false
-                                                                  ? show = true
-                                                                  : show = false;
-                                                            });
-                                                          },
-
-                                                        )
-                                                    ):Container(),
-                                                    show==true?Flexible(child: show == true
-                                                        ? Divider(thickness: 2,)
-                                                        : Container(),):Container(),
+                                               )
+                                           ):Container(),
+                                           show==true?Flexible(child: show == true
+                                               ? Divider(thickness: 2,)
+                                               : Container(),):Container(),
 
 
-                                                    show==true?show == true
-                                                        ?Container(
+                                           show==true?show == true
+                                                   ?Container(
 
-                                                        child: Image.network(
-                                                            parts[0].toString(),
+                                             child: Image.network(
+                                                 parts[0].toString(),
 
-                                                            fit: BoxFit.fitWidth)
-                                                    )
-
-
-                                                        : Container()
-                                                        :Container(),
-
-                                                    show==true && parts.length>1?show == true
-                                                        ?Container(
-
-                                                        child: Image.network(
-                                                            GlobalConfiguration().getString('api_question_image').toString()+widget.question['hint_img_destination'].toString()+"/"+ parts[1].toString(),
-
-                                                            fit: BoxFit.fitWidth)
-                                                    )
+                                                 fit: BoxFit.fitWidth)
+                                           )
 
 
-                                                        : Container()
-                                                        :Container()
+                                                   : Container()
+                                           :Container(),
 
-                                                  ],
-                                                ),
-                                              )
-                                          );
-                                        }
-                                    );
+                                           show==true && parts.length>1?show == true
+                                               ?Container(
 
-                                  },
-                                );
+                                               child: Image.network(
+                                     GlobalConfiguration().getString('api_question_image').toString()+widget.question['hint_img_destination'].toString()+"/"+ parts[1].toString(),
+
+                                                   fit: BoxFit.fitWidth)
+                                           )
+
+
+                                               : Container()
+                                               :Container()
+
+                                         ],
+                                       ),
+                                     )
+                                     );
+                                   }
+                           );
+
+                                 },
+                               );
 
 
 
 
 
-                              },
-                              child: Text(
+                           },
+                           child: Text(
 
-                                "More Info.",
+                             "More Info.",
 
-                                // demo,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
+                             // demo,
+                             textAlign: TextAlign.left,
+                             style: TextStyle(
 
-                                    fontSize: getFontSize(context,2),
-                                    fontWeight: FontWeight.w700,
-                                    // fontWeight: FontWeight.w500,
-                                    fontFamily: "AVENIRLTSTD",
-                                    color: Colors.blueAccent),
+                                 fontSize: getFontSize(context,2),
+                                 fontWeight: FontWeight.w700,
+                                 // fontWeight: FontWeight.w500,
+                                 fontFamily: "AVENIRLTSTD",
+                                 color: Colors.blueAccent),
 
-                              ),
-                            ),
-                          )
+                           ),
+                         ),
+                       )
 
-                      ),
+                     ),
 
                       MediaQuery.of(context).size.width<=600?SizedBox(height: 30):SizedBox(height: 90,),
 
@@ -816,205 +435,568 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
                           width: 35,
                           child: Center(child: CircularProgressIndicator()))
                           : Container(
-                        // alignment: Alignment.bottomCenter,
-                          height: config.App(context).appHeight(widget.question['ans'].toString()=="3"?(
-                              partImageName.length==0?55:partImageName.length==1?85:partImageName.length==2?125:partImageName.length==3?155:partImageName.length==4?215:215
-                          ):55),
-                          child: Column(
+                        padding: EdgeInsets.all(2),
+                        height: config.App(context).appHeight(widget.question['ans'].toString()=="3"?(
+                            partImageName.length==0?55:partImageName.length==1?85:partImageName.length==2?125:partImageName.length==3?155:partImageName.length==4?215:250
+                        ):40),
+                        child: Column(
+                          children: <Widget>[                        
+                            Expanded(
 
-                            children: <Widget>[
+                              child: ListView.builder(
 
-//                              showCommentAndImages==1?
-//
-//                               :Container(),
-                              Expanded(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: _inspectionController.sampleData.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return new InkWell(
 
-                                child: ListView.builder(
+                                
+                                  onTap: () {
 
-                                 
-                                  itemCount: _inspectionController.sampleData.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return new InkWell(
+                                   if(_inspectionController.sampleData[index].buttonText=="Rectification Required"||
+                                        _inspectionController.sampleData[index].buttonText=="Non Compliant") MediaQuery.of(context).size.width<=600?showdialogmobile(1,index):showdialogtablet(1, index);
+                                   else
+                                    { 
+                                      final pr=ProgressDialog(context);
+                                      pr.show();
+                                      _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index,context,widget.questionsList,pr);
+                                      
+                                     
+                                    }
+                                    
 
-                                      onTap: () {
-
-
-
-                                        if(_inspectionController.sampleData[index].buttonText=="Rectification Required"||
-                                            _inspectionController.sampleData[index].buttonText=="Non Compliant") MediaQuery.of(context).size.width<=600?showdialogmobile(1,index):showdialogtablet(1, index);
-                                            else
-                                            {final pr=ProgressDialog(context);
-                                            pr.show();
-                                        _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index,context,widget.questionsList,pr);}
-
-
-                                      },
-
-                                      child:widget.question['question_type'].toString()=="0"?index<=2?new RadioItem(_inspectionController.sampleData[index]):Container()
-                                          :index>=3?new RadioItem(_inspectionController.sampleData[index]):Container(),
-
-                                    );
                                   },
+
+                                  child:widget.question['question_type'].toString()=="0"?index<=2?new RadioItem(_inspectionController.sampleData[index]):Container()
+                                  :index>=3?new RadioItem(_inspectionController.sampleData[index]):Container(),
+
+                                );
+                              },
+                            ),
+                            ),
+
+                            partImageName.length>=1&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 25, 15),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[0].toString(),widget.question['booking_id'],0);
+                                    },
+                                  ),
                                 ),
                               ),
+                            ):Container(),
+                            partImageName.length>=1&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[0]}",
+                                  fit: BoxFit.fill,
 
-                              partImageName.length>=1&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 0, 25, 15),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[0].toString(),widget.question['booking_id'],0);
-                                      },
-                                    ),
+
+                                )
+                            ):Container(),
+
+                            partImageName.length>=2&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[1].toString(),widget.question['booking_id'],1);
+                                    },
                                   ),
                                 ),
-                              ):Container(),
-                              partImageName.length>=1&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[0]}",
-                                    fit: BoxFit.fill,
+                              ),
+                            ):Container(),
+                            partImageName.length>=2&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[1]}",
+                                  fit: BoxFit.fill,
 
 
-                                  )
-                              ):Container(),
-
-                              partImageName.length>=2&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[1].toString(),widget.question['booking_id'],1);
-                                      },
-                                    ),
+                                )
+                            ):Container(),
+                            partImageName.length>=3&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[2].toString(),widget.question['booking_id'],2);
+                                    },
                                   ),
                                 ),
-                              ):Container(),
-                              partImageName.length>=2&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[1]}",
-                                    fit: BoxFit.fill,
+                              ),
+                            ):Container(),
+                            partImageName.length>=3&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[2]}",
+                                  fit: BoxFit.fill,
 
 
-                                  )
-                              ):Container(),
+                                )
+                            ):Container(),
 
 
-                              partImageName.length>=3&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[2].toString(),widget.question['booking_id'],2);
-                                      },
-                                    ),
+                            partImageName.length>=4&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[3].toString(),widget.question['booking_id'],3);
+                                    },
                                   ),
                                 ),
-                              ):Container(),
-                              partImageName.length>=3&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[2]}",
-                                    fit: BoxFit.fill,
+                              ),
+                            ):Container(),
+                            partImageName.length>=4&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[3]}",
+                                  fit: BoxFit.fill,
 
 
-                                  )
-                              ):Container(),
+                                )
+                            ):Container(),
 
-
-                              partImageName.length>=4&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[3].toString(),widget.question['booking_id'],3);
-                                      },
-                                    ),
+                            partImageName.length>=5&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[4].toString(),widget.question['booking_id'],4);
+                                    },
                                   ),
                                 ),
-                              ):Container(),
-                              partImageName.length>=4&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[3]}",
-                                    fit: BoxFit.fill,
+                              ),
+                            ):Container(),
+                            partImageName.length>=5&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[4]}",
+                                  fit: BoxFit.fill,
 
 
-                                  )
-                              ):Container(),
-
-                              partImageName.length>=5&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child:
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: GestureDetector(
-                                      child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
-                                      onTap: () async{
-                                        await clearImage(widget.question['id'],partImageName[4].toString(),widget.question['booking_id'],4);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ):Container(),
-                              partImageName.length>=5&&(widget.question['ans'].toString()!="1"&&
-                                  widget.question['ans'].toString()!="2")?Expanded(
-                                  child:   Image.network(
-                                    "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[4]}",
-                                    fit: BoxFit.fill,
+                                )
+                            ):Container(),
 
 
-                                  )
-                              ):Container(),
-
-                            ],
-                          )
+                          ],
+                        )
 
                       ),
 
                     ],
                   ),
                 )
-            ),
-          )
+            )
         ],
-      )
+      ),
+          )
     );
 
 
+  }
+
+  Future<Padding> buildDelete(BuildContext context) async {
+    return Padding(
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+              child:  Container(
+                color: Theme.of(context).primaryColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 10,),
+                    ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(child:Align(
+
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(8, 4, 8, 6),
+                                child: Text(
+                                  ("Q${widget.i + 1}.").toString()+" "+widget.question['question'],
+                               
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: getFontSize(context,3),
+                                    
+                                      fontFamily: "AVENIRLTSTD",
+                                      color: Color(0xff222222)),
+                                ),
+                              ),
+                              alignment: Alignment.centerLeft,
+                            )
+                            ),
+
+                          ],),
+
+                        subtitle:Padding(
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: GestureDetector(
+                            onTap: ()
+                            {
+                              bool show=false;
+
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  // return object of type Dialog
+                                  return StatefulBuilder(
+                                      builder: (context, setState) {
+                                        return  SingleChildScrollView(
+                                            child:AlertDialog(
+
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Align(
+
+                                                    child: GestureDetector(
+
+                                                      onTap: ()
+                                                      {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                      child: Icon(Icons.clear,color: Colors.grey,),
+                                                    ),
+                                                    alignment: Alignment.topRight,
+                                                  ),
+                                                  SizedBox(height: 10,),
+                                                  Flexible(child:
+                                                  SingleChildScrollView(
+                                                    child:  Text(
+                                                      widget.question['hint']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontFamily: "AVENIRLTSTD",
+                                                          color: Colors.black,
+                                                          fontSize: getFontSize(context,0)),
+                                                    ),
+                                                  )
+                                                  ),
+                                                  SizedBox(height: 20,),
+                                                  widget.question['file_name']!=null?Flexible(
+                                                      child: GestureDetector(
+
+                                                        child: Text(
+                                                          "Show Image",
+                                                          style: TextStyle(
+                                                              fontFamily: "AVENIRLTSTD",
+                                                              color: Colors.blueAccent,
+                                                              fontSize: getFontSize(context,0)),
+                                                        ),
+                                                        onTap: () {
+                                                          setState(() {
+                                                            print("imgend"+GlobalConfiguration().getString('api_question_image').toString()+widget.question['destination'].toString()+widget.question['file_name'].toString());
+                                                            // print("urlofimagehint"+GlobalConfiguration().toString()+"/"+widget.question['destination'].toString()+"/"+widget.question['images'].toString());
+                                                            show == false
+                                                                ? show = true
+                                                                : show = false;
+                                                          });
+                                                        },
+
+                                                      )
+                                                  ):Container(),
+                                                  show==true?Flexible(child: show == true
+                                                      ? Divider(thickness: 2,)
+                                                      : Container(),):Container(),
+
+
+                                                  show==true?show == true
+                                                      ?Container(
+
+                                                      child: Image.network(
+                                                          parts[0].toString(),
+
+                                                          fit: BoxFit.fitWidth)
+                                                  )
+
+
+                                                      : Container()
+                                                      :Container(),
+
+                                                  show==true && parts.length>1?show == true
+                                                      ?Container(
+
+                                                      child: Image.network(
+                                                          GlobalConfiguration().getString('api_question_image').toString()+widget.question['hint_img_destination'].toString()+"/"+ parts[1].toString(),
+
+                                                          fit: BoxFit.fitWidth)
+                                                  )
+
+
+                                                      : Container()
+                                                      :Container()
+
+                                                ],
+                                              ),
+                                            )
+                                        );
+                                      }
+                                  );
+
+                                },
+                              );
+
+
+
+
+
+                            },
+                            child: Text(
+
+                              "More Info.",
+
+                              // demo,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+
+                                  fontSize: getFontSize(context,2),
+                                  fontWeight: FontWeight.w700,
+                                  // fontWeight: FontWeight.w500,
+                                  fontFamily: "AVENIRLTSTD",
+                                  color: Colors.blueAccent),
+
+                            ),
+                          ),
+                        )
+
+                    ),
+
+                    MediaQuery.of(context).size.width<=600?SizedBox(height: 30):SizedBox(height: 90,),
+
+
+                    _inspectionController.confirmLoader
+                        ? SizedBox(
+                        width: 35,
+                        child: Center(child: CircularProgressIndicator()))
+                        : Container(
+                      // alignment: Alignment.bottomCenter,
+                        height: config.App(context).appHeight(widget.question['ans'].toString()=="3"?(
+                            partImageName.length==0?55:partImageName.length==1?85:partImageName.length==2?125:partImageName.length==3?155:partImageName.length==4?215:215
+                        ):55),
+                        child: Column(
+
+                          children: <Widget>[
+                            Expanded(
+
+                              child: ListView.builder(
+
+                               
+                                itemCount: _inspectionController.sampleData.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return new InkWell(
+
+                                    onTap: () {
+
+
+
+                                      if(_inspectionController.sampleData[index].buttonText=="Rectification Required"||
+                                          _inspectionController.sampleData[index].buttonText=="Non Compliant") MediaQuery.of(context).size.width<=600?showdialogmobile(1,index):showdialogtablet(1, index);
+                                          else
+                                          {final pr=ProgressDialog(context);
+                                          pr.show();
+                                      _inspectionController.getPostQuestions(widget.entryIndex,widget.i,index,context,widget.questionsList,pr);}
+
+
+                                    },
+
+                                    child:widget.question['question_type'].toString()=="0"?index<=2?new RadioItem(_inspectionController.sampleData[index]):Container()
+                                        :index>=3?new RadioItem(_inspectionController.sampleData[index]):Container(),
+
+                                  );
+                                },
+                              ),
+                            ),
+
+                            partImageName.length>=1&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 25, 15),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[0].toString(),widget.question['booking_id'],0);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ):Container(),
+                            partImageName.length>=1&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[0]}",
+                                  fit: BoxFit.fill,
+
+
+                                )
+                            ):Container(),
+
+                            partImageName.length>=2&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[1].toString(),widget.question['booking_id'],1);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ):Container(),
+                            partImageName.length>=2&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[1]}",
+                                  fit: BoxFit.fill,
+
+
+                                )
+                            ):Container(),
+
+
+                            partImageName.length>=3&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[2].toString(),widget.question['booking_id'],2);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ):Container(),
+                            partImageName.length>=3&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[2]}",
+                                  fit: BoxFit.fill,
+
+
+                                )
+                            ):Container(),
+
+
+                            partImageName.length>=4&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[3].toString(),widget.question['booking_id'],3);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ):Container(),
+                            partImageName.length>=4&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[3]}",
+                                  fit: BoxFit.fill,
+
+
+                                )
+                            ):Container(),
+
+                            partImageName.length>=5&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Padding(
+                              padding: EdgeInsets.fromLTRB(0, 15, 25, 0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child:
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.cancel,size: 30,color: Colors.blue,),
+                                    onTap: () async{
+                                      await clearImage(widget.question['id'],partImageName[4].toString(),widget.question['booking_id'],4);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ):Container(),
+                            partImageName.length>=5&&(widget.question['ans'].toString()!="1"&&
+                                widget.question['ans'].toString()!="2")?Expanded(
+                                child:   Image.network(
+                                  "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[4]}",
+                                  fit: BoxFit.fill,
+
+
+                                )
+                            ):Container(),
+
+                          ],
+                        )
+
+                    ),
+
+                  ],
+                ),
+              )
+          );
   }
 
 

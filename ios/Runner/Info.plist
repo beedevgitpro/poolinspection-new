@@ -12,6 +12,8 @@
 	<string>6.0</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 <string>Photo Library Access Required</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Photo Library Access Required</string>
 <key>NSCameraUsageDescription</key>
 <string>Camera Access Required</string>
 	<key>NSMicrophoneUsageDescription</key>

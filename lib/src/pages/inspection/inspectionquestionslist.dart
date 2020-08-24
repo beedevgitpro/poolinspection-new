@@ -99,9 +99,10 @@ class _InspectionQuestionListState
               color: config.Colors().secondColor(1),
             ),
             onPressed: () => Navigator.pop(context, true)),
+        centerTitle: true,
         title: Text(
           'Select Questions',
-          style: TextStyle( fontFamily: "AVENIRLTSTD", fontWeight: FontWeight.bold),
+          style: TextStyle( fontFamily: "AVENIRLTSTD", fontWeight: FontWeight.bold,fontSize: getFontSize(context, 4)),
         ),
         actions: <Widget>[
           IconButton(
@@ -194,8 +195,6 @@ class _InspectionQuestionListState
                                   child:new RaisedButton(
                                       disabledElevation:0.0,
                                       onPressed:() async{
-                                      
-                                        print("4321"+_con.questionslist[i].toString());
                                          await Navigator.push(
                                             context,
                                             MaterialPageRoute(

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -10,9 +9,7 @@ import 'package:poolinspection/src/elements/custom_progress_dialog.dart';
 import 'package:poolinspection/src/helpers/sharedpreferences/userpreferences.dart';
 import 'package:poolinspection/src/models/bookingmodel.dart';
 import 'package:poolinspection/src/models/errorclasses/errorsignupcompanymodel.dart';
-
-import 'package:poolinspection/src/repository/booking_repository.dart'
-    as repository;
+import 'package:poolinspection/src/repository/booking_repository.dart' as repository;
 import 'package:poolinspection/src/repository/user_repository.dart' as userRepo;
 import 'package:poolinspection/src/repository/booking_repository.dart';
 
@@ -90,7 +87,7 @@ class BookingFormController extends ControllerMVC {
   }
 
   sendEnquiry(BuildContext context) {
-   
+        String sendInvoice=bookingFormKey.currentState.value["send_invoice"];
         if (bookingFormKey.currentState.validate()) {
           bookingFormKey.currentState.save();
           
@@ -107,10 +104,12 @@ class BookingFormController extends ControllerMVC {
                 pr.hide();
                print("checkinbook="+onValue.toString());
                if(onValue!=null) {
-                 Navigator.of(context).pushReplacementNamed('/Home');
+                 print(bookingFormKey.currentState.value["send_invoice"]);
+                 if(sendInvoice=='0')
+                  Navigator.of(context).pushReplacementNamed('/Home');
                  Flushbar(
-                   title: "Done Booking",
-                   message: onValue['messages'],
+                   title: sendInvoice=="1"?"Invoice Sent":"Done Booking",
+                   message: sendInvoice=="1"?onValue['messages']:onValue['messages'],
                    duration: Duration(seconds: 3),
                  )
                    ..show(context);
@@ -140,10 +139,11 @@ class BookingFormController extends ControllerMVC {
            pr.hide();
        if(onValue!=null) {
         storeListDataInLocal(onValue,value['bookingid'].toString());
+        if(value["send_invoice"]=="3")
          Navigator.pushReplacementNamed(context, "/Home");
          Flushbar(
-           title: "Details Confirmed",
-           message: "Inspection needs to be Initiated",
+           title: value["send_invoice"]=="1"?"Details Saved":value["send_invoice"]=="2"?'eInvoice Sent':"Details Confirmed",
+           message: value["send_invoice"]=="1"?"Details have to be confirmed":value["send_invoice"]=="2"?'Details have to be confirmed':"Inspection has to be Initiated",
            duration: Duration(seconds: 3),
          )
            ..show(context);

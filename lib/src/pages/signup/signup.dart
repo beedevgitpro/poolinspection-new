@@ -640,7 +640,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
           Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => MyWebView(
                   title:"Terms And Conditions" ,
-                  selectedUrl:"https://poolinspection.beedevstaging.com/terms-condition",
+                  selectedUrl:"https://pia.bdstaging.com.au/terms-condition",
                 )));
         },
         text: 'Terms & Conditions', style: TextStyle(

@@ -38,8 +38,7 @@ Future postBooking(value,context) async {
   final String _apiToken = 'beedev';
   try {
     final String url =
-        '${GlobalConfiguration().getString(
-        'api_base_url')}$_apiToken/booking_api';
+        '$baseUrl/$_apiToken/booking_api';
     final client = new http.Client();
     final response = await client.post(url,
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
@@ -219,8 +218,7 @@ Future getQuestionsFromHeadingId(int headingId, int booking,context) async {
   final String _apiToken = 'beedev';
   try {
     final String url =
-        '${GlobalConfiguration().getString(
-        'api_base_url')}$_apiToken/questions_from_headingID/$booking/$headingId';
+        '$baseUrl/$_apiToken/questions_from_headingID/$booking/$headingId';
     print(url);
     final response = await http.get(url);
     if (response.statusCode == 200) {

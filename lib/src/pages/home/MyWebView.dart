@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:poolinspection/src/components/responsive_text.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -19,7 +20,7 @@ class MyWebView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(title),
+          title: Text(title,style: TextStyle(fontSize: getFontSize(context, 4))),
           actions: [Image.asset(
             "assets/img/app-iconwhite.jpg",
             // fit: BoxFit.cover,

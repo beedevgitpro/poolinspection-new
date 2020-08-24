@@ -269,10 +269,10 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
               Icons.arrow_back_ios,
               color: config.Colors().secondColor(1),
             ),
-            onPressed: () => Navigator.pop(context)), //doubt here
+            onPressed: () => Navigator.pop(context)), 
         title:  Text(
           "Inspection: ${widget.predata['owner_land']}",
-          style: TextStyle(fontFamily: "AVENIRLTSTD", fontWeight: FontWeight.bold),
+          style: TextStyle(fontFamily: "AVENIRLTSTD", fontWeight: FontWeight.bold,fontSize: getFontSize(context, 4)),
         ),
         actions: <Widget>[
          isOnline?IconButton(

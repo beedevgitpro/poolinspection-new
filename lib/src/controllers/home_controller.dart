@@ -9,8 +9,7 @@ import 'package:poolinspection/src/components/responsive_text.dart';
 import 'package:poolinspection/src/controllers/user_controller.dart';
 import 'package:poolinspection/src/helpers/sharedpreferences/userpreferences.dart';
 import 'package:poolinspection/src/models/user.dart';
-import 'package:poolinspection/src/repository/user_repository.dart'
-    as userRepository;
+import 'package:poolinspection/src/repository/user_repository.dart' as userRepository;
 import 'package:http/http.dart' as http;
 import 'package:poolinspection/constants.dart';
 

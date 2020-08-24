@@ -147,7 +147,7 @@ class _CertificateListClassState extends State<CertificateListClass> {
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontFamily: "AVENIRLTSTD",
-                fontSize: getFontSize(context, 2),
+                fontSize: getFontSize(context, 4),
                 color: Color(0xff222222),
               ),
             ),

@@ -60,7 +60,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
         title: Text("Book Inspection",
             style: TextStyle(
                 fontFamily: "AVENIRLTSTD",
-                // fontSize: getFontSize(context,-3),
+                fontSize: getFontSize(context,4),
                 color: Color(0xff222222),
                 fontWeight: FontWeight.normal)),
         centerTitle: true,
@@ -133,7 +133,6 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                                color: Theme.of(context).accentColor,
                                onPressed: () {
                                  _bookingFormController.bookingFormKey.currentState.initialValue['send_invoice']="1";
-
                                  _bookingFormController.sendEnquiry(context);
                                }
                            )
@@ -480,11 +479,6 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                 .toList(),
           ),
                   sizedbox,
-                 
-
-                  
-                 
-
 
                   Text("Inspection Type",textAlign: TextAlign.left,  style: TextStyle(
                       fontFamily: "AVENIRLTSTD",
@@ -595,7 +589,7 @@ SizedBox(height:3),
 
                   CustomFormBuilderRadio(
                     
-                    activeColor: Color(0xff222222),
+                    activeColor: Theme.of(context).accentColor,
                     decoration: buildInputDecoration(context,
                         "Has the inspection fee payment been made?", "yes or no").copyWith(
                          enabledBorder: InputBorder.none,
@@ -638,7 +632,7 @@ SizedBox(height:3),
           Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => MyWebView(
                   title:"Terms And Conditions" ,
-                  selectedUrl:"https://poolinspection.beedevstaging.com/terms-condition",
+                  selectedUrl:"https://pia.bdstaging.com.au/terms-condition",
                 )));
         },
         text: 'Terms & Conditions', style: TextStyle(

@@ -20,6 +20,7 @@ import 'package:poolinspection/src/elements/inputdecoration.dart';
 import 'package:poolinspection/src/elements/textlabel.dart';
 import 'package:poolinspection/src/repository/user_repository.dart' as userRepo;
 import 'package:poolinspection/src/models/signupfields.dart';
+import 'package:strings/strings.dart';
 
 
 class AddCardDetailWidget extends StatefulWidget {
@@ -163,7 +164,7 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
          style: TextStyle(
            fontWeight: FontWeight.w500,
            fontFamily: "AVENIRLTSTD",
-           fontSize: getFontSize(context,2),
+           fontSize: getFontSize(context,4),
            color: Color(0xff222222),
          ),
        ),
@@ -184,7 +185,7 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
        resizeToAvoidBottomPadding: true,
        body: GestureDetector(
          onPanDown: (_){
-           FocusScope.of(context).requestFocus();
+           FocusScope.of(context).requestFocus(FocusNode());
          },
                      child: Padding(
            padding: const EdgeInsets.all(8.0),
@@ -222,7 +223,6 @@ class _AddCardDetailState extends StateMVC<AddCardDetailWidget> {
        SelectNonCompliantOrNotice loginrespdata = selectNonCompliantOrNoticeFromJson(response.body);
 
        if (loginrespdata.status == "pass") {
-         print("inisdesucess=" + userid);
       await pr.hide();
          Fluttertoast.showToast(
              msg: "Card Details Updated ",
@@ -240,10 +240,10 @@ backgroundColor:
 
          await pr.hide();
          Fluttertoast.showToast(
-             msg: loginrespdata.messages.toString(),
+             msg: capitalize(loginrespdata.messages.toString()),
              toastLength: Toast.LENGTH_SHORT,
              gravity: ToastGravity.BOTTOM,
-backgroundColor:
+            backgroundColor:
              Theme.of(context).hintColor,
              textColor: Colors.white,
              fontSize: getFontSize(context,-2)
@@ -419,7 +419,7 @@ backgroundColor:
                 textLabel("Card Number",context),
                 FormBuilderTextField(
                   focusNode: cardNumberNode,
-                  
+                  // initialValue: cardNumber,
                                     textInputAction: TextInputAction.next,
                                     onFieldSubmitted: (_){
                                       monthNode.requestFocus();

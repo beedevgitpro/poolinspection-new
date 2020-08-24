@@ -222,7 +222,7 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
           style: TextStyle(
             fontWeight: FontWeight.w500,
             fontFamily: "AVENIRLTSTD",
-            fontSize: getFontSize(context,2),
+            fontSize: getFontSize(context,4),
             color: Color(0xff222222),
           ),
         ),
@@ -241,7 +241,7 @@ class _AddBankDetailState extends StateMVC<AddBankDetailWidget> {
         resizeToAvoidBottomPadding: true,
         body: GestureDetector(
           onPanDown: (_){
-            FocusScope.of(context).requestFocus();
+            FocusScope.of(context).requestFocus(FocusNode());
           },
                       child: FutureBuilder<PaymentDetailGetApiModel>(
             future: getBankDetail(),

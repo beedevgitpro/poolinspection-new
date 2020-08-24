@@ -78,10 +78,10 @@ class SplashScreenState extends StateMVC<SplashScreen> {
               SizedBox(height: 50),
              // isOffline
                Container(
-                 width: MediaQuery.of(context).size.width*0.1,
-                 height: MediaQuery.of(context).size.width*0.1,
+                 width: MediaQuery.of(context).size.width*0.11,
+                 height: MediaQuery.of(context).size.width*0.11,
                  child: CircularProgressIndicator(
-                        strokeWidth: 10,
+                        strokeWidth: 8,
                         valueColor: AlwaysStoppedAnimation<Color>(
                             Theme.of(context).scaffoldBackgroundColor),
                       ),

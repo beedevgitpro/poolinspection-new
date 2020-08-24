@@ -286,7 +286,7 @@ Widget drawerData(BuildContext context, int rolesManage) {
             child: Image.asset(
               "assets/img/logo.png",
               // fit: BoxFit.cover,
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.contain,
             ),
            
           ),
