@@ -316,12 +316,14 @@ Widget drawerData(BuildContext context, int rolesManage) {
                       })
                   : Container(),
               ListView(
+                physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 children:
                 _listOfExpansionsCertificate.map((expansionTile) => expansionTile).toList(),
               ),
               ListView(
+                physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 children:

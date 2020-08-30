@@ -64,7 +64,7 @@ class _NoticeReportState extends StateMVC<NoticeReport> {
       body: RefreshIndicator(
         onRefresh: _con.onRefresh,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding:  EdgeInsets.all(8.0),
           child: _con.noticeofcompliant == null
               ? Center(
                   child: CircularProgressIndicator(),
@@ -91,7 +91,6 @@ class _NoticeReportState extends StateMVC<NoticeReport> {
 //                                              routeArgument:
 //                                                  model.compliantReportList[i],
 //                                            )),
-//
 //                                    // );
 //                                  );
                                 },
@@ -100,7 +99,7 @@ class _NoticeReportState extends StateMVC<NoticeReport> {
                                     
                                   color: Colors.blueAccent,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
+                                    padding:  EdgeInsets.all(5.0),
                                     child: Text(
                                         "${DateFormat("yMMMMd").format(DateTime.parse(_con.noticeofcompliant['compliant_report_list'][i]['booking_date_time']))}",
                                         style: TextStyle(
@@ -111,7 +110,7 @@ class _NoticeReportState extends StateMVC<NoticeReport> {
                                   ),
                                 ),
                                 title:Padding(
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding:  EdgeInsets.all(5.0),
                                   child:  Text(
                                     capitalize("${_con.noticeofcompliant['compliant_report_list'][i]['owner_name'].toString()}"),
                                     style: TextStyle(

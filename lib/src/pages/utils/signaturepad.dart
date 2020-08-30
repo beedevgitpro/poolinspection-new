@@ -149,7 +149,6 @@ class _SignCertificateScreenState extends State<SignCertificateScreen> {
           actions: <Widget>[
             Image.asset(
             "assets/img/app-iconwhite.jpg",
-            
             fit: BoxFit.fitWidth,
           )
           ],

@@ -105,7 +105,6 @@ class BookingFormController extends ControllerMVC {
                print("checkinbook="+onValue.toString());
                if(onValue!=null) {
                  print(bookingFormKey.currentState.value["send_invoice"]);
-                 if(sendInvoice=='0')
                   Navigator.of(context).pushReplacementNamed('/Home');
                  Flushbar(
                    title: sendInvoice=="1"?"Invoice Sent":"Done Booking",

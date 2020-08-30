@@ -116,7 +116,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                          ),
                        ),
                      ),),
-                     Expanded(flex:1,child:Container(
+                     Expanded(flex:2,child:Container(
 
                        alignment: Alignment.bottomCenter,
                        child:Container(
@@ -126,7 +126,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                                child: Padding(
                                  padding: EdgeInsets.all(10.0),
                                  child:Text(
-                                   "Send Invoice",
+                                   "Submit & Send Invoice",
                                    style: TextStyle(color: Theme.of(context).primaryColor,fontFamily: "AVENIRLTSTD",fontSize: getFontSize(context,0)),
                                  ),
                                ),
@@ -141,7 +141,8 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                    ],
 
                  ),
-               )
+               ),
+               SizedBox(height:10)
                     ],
                   ),
                 ),
@@ -198,7 +199,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
       children: <Widget>[
     Card(
     child: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.0),
       child:Column(
 
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,6 +216,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
             style: TextStyle(color: Color(0xff222222),fontSize: getFontSize(context,2),fontFamily: "AVENIRLTSTD",),
             textInputAction: TextInputAction.next,
             attribute: "name_relevant_council",
+            textCapitalization: TextCapitalization.sentences,
             decoration: buildInputDecoration(
                 context,
                 "The name of the relevant Council that issued \nthe Notice of Registration",
@@ -283,7 +285,6 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child:Column(
-
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text('Owner Name',textAlign: TextAlign.left,  style: TextStyle(
@@ -292,6 +293,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                       color: Color(0xff222222),
                       fontWeight: FontWeight.normal),),
                   CustomFormBuilderTextField(
+                    textCapitalization: TextCapitalization.sentences,
                     onFieldSubmitted: (value){
                       businessNameNode.requestFocus();
                     },
@@ -311,6 +313,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                       color: Color(0xff222222),
                       fontWeight: FontWeight.normal),),
                   CustomFormBuilderTextField(
+                    textCapitalization: TextCapitalization.sentences,
                     focusNode: businessNameNode,
                     onFieldSubmitted: (value){
                       ownerAddressNode.requestFocus();
@@ -335,6 +338,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                       inspectionAddressNode.requestFocus();
                     },
                     focusNode: ownerAddressNode,
+                    textCapitalization: TextCapitalization.sentences,
                     textInputAction: TextInputAction.next,
                     attribute: "owner_address",
                     decoration: buildInputDecoration(context, "", "Enter Postal Address"),
@@ -355,6 +359,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                     },
                     focusNode: inspectionAddressNode,
                     textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.sentences,
                     attribute: "inspection_address",
                     decoration: buildInputDecoration(context, "", "Enter Inspection Address"),
                     validators: [
@@ -420,6 +425,7 @@ class _BookingFormWidgetState extends StateMVC<BookingFormWidget> {
                     onFieldSubmitted: (value){
                       postcodeNode.requestFocus();
                     },
+                    textCapitalization: TextCapitalization.sentences,
                     textInputAction: TextInputAction.next,
                     style: TextStyle(color: Color(0xff222222),fontSize: getFontSize(context,2),fontFamily: "AVENIRLTSTD",),
                     attribute: "state",
@@ -516,7 +522,7 @@ SizedBox(height:3),
                     attribute: "booking_date_time",
                     validators: [FormBuilderValidators.required()],
                     inputType: InputType.date,
-                    format:new DateFormat("dd-MM-yyyy"),
+                    format: DateFormat("dd-MM-yyyy"),
                     
                      decoration: buildInputDecoration(
                         context,

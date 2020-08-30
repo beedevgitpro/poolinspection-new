@@ -955,8 +955,6 @@ class _InspectionQuestionState extends StateMVC<InspectionQuestion> {
                                 child:   Image.network(
                                   "${GlobalConfiguration().getString('api_question_image')}${widget.question['destination']}/${partImageName[3]}",
                                   fit: BoxFit.fill,
-
-
                                 )
                             ):Container(),
 

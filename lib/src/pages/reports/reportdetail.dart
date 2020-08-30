@@ -21,8 +21,9 @@ class WebClient {
       String url, savePath, ProgressCallback onProgress) async {
     try {
       await dio.download(url, savePath, onReceiveProgress: onProgress);
-    } catch (e) {
-      throw ('An error occurred');
+    } on DioError catch (e) {
+      print(e.error);
+      // throw ('An error occurred');
     }
   }
 }

@@ -274,13 +274,14 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                           child: buildColumn(context, offlineListData)),
             )
           : RefreshIndicator(
-              onRefresh: refreshId, child: buildColumn(context, _homeController.listdata)),
+              onRefresh: isOnline?refreshId:refreshOfflineId, child: buildColumn(context, _homeController.listdata)),
     );
     // : Text(_con.listdata.toString() ?? ""));
   }
 
 //             future: dashBoardBloc(),
   Future refreshId() async {
+    if(isOnline)
     setState(() {
       _homeController.fetchData();
     });
@@ -447,6 +448,8 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                         color: Colors.black)),
                 children: [
                   ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                     leading: Container(
                       width: MediaQuery.of(context).size.width * 0.2,
                       child: TextFormField(
@@ -500,7 +503,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                 style: TextStyle(
                                     fontSize: getFontSize(context,-2),
                                     fontFamily: "AVENIRLTSD",
-                                    
                                     color: Colors.black),
                               ),
                                                         ),
@@ -537,7 +539,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                               color: Colors.black54,
                               fontSize: getFontSize(context,-2),
                             ),
-                            
                             contentPadding: EdgeInsets.all(0),
                             hintText: 'Owner Address'),
                             onChanged:(value){
@@ -694,14 +695,13 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                           "00:00:00.000")
                   .subtract(new Duration(days: bookingDate.weekday - 1));
               print("errorinbookingdate=" + bookingDate.toString());
-
               differencedate = mondayofbookingDate
                   .difference(mondaydateofcurrentdate)
                   .inDays;
                   if(filtered && isCompleted)
               if((ownerName.isNotEmpty&&!data[index]['owner_name'].toLowerCase().contains(ownerName.toLowerCase()))
               ||(selectedDate!=null&&selectedDate!=bookingDate)
-              ||(ownerName.isNotEmpty&&!(data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']/*data[index]['owner_address']*/).toLowerCase().contains(ownerAddress.toLowerCase()))
+              ||(ownerAddress.isNotEmpty&&!(data[index]['owner_address']??data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']).toLowerCase().contains(ownerAddress.toLowerCase()))
               ||(jobNo.isNotEmpty&&!data[index]['id'].toLowerCase().contains(jobNo.toLowerCase()))
               ||(inspectionType!=null&&data[index]['inspection_type'].toString()!=inspectionType.toString()))
                                         return Container();
@@ -804,7 +804,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                             height: 10,
                                           ),
                                           Text(
-                                            "${data[index]['owner_address']}",
+                                            "${data[index]['owner_address']??data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']}",
                                             style: TextStyle(
                                                 fontFamily: "AVENIRLTSTD",
                                                 fontSize: getFontSize(context,2),
@@ -1037,11 +1037,11 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             .subtract(new Duration(days: bookingDate.weekday - 1));
         differencedate =
             mondayofbookingDate.difference(mondaydateofcurrentdate).inDays;
-           
+           print(data[index]['notice_registration'].toString());
             if(filtered && isCompleted)
               if((ownerName.isNotEmpty&&!data[index]['owner_name'].toLowerCase().contains(ownerName.toLowerCase()))
               ||(selectedDate!=null&&selectedDate!=bookingDate)
-              ||(ownerName.isNotEmpty&&!(data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']/*data[index]['owner_address']*/).toLowerCase().contains(ownerAddress.toLowerCase()))
+              ||(ownerAddress.isNotEmpty&&!(data[index]['owner_address']??data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']).toLowerCase().contains(ownerAddress.toLowerCase()))
               ||(jobNo.isNotEmpty&&!data[index]['id'].toLowerCase().contains(jobNo.toLowerCase()))
               ||(inspectionType!=null&&data[index]['inspection_type'].toString()!=inspectionType.toString()))
                                         return Container();
@@ -1091,7 +1091,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "${data[index]['owner_address']}",
+                                      "${data[index]['owner_address']??data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']}",
                                       style: TextStyle(
                                           fontFamily: "AVENIRLTSTD",
                                           fontSize: getFontSize(context,-3),

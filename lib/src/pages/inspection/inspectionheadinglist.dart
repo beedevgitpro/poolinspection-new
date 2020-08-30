@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -8,6 +10,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:poolinspection/config/app_config.dart' as config;
 import 'package:poolinspection/src/components/responsive_text.dart';
 import 'package:poolinspection/src/controllers/inspection_controller.dart';
+import 'package:poolinspection/src/elements/inputdecoration.dart';
+import 'package:poolinspection/src/elements/radiobutton.dart';
 import 'package:poolinspection/src/helpers/connectivity.dart';
 import 'package:poolinspection/src/models/offlinedatamodel.dart';
 import 'package:poolinspection/src/models/questionmodel.dart';
@@ -31,18 +35,32 @@ class InspectionHeadingList extends StatefulWidget {
 
 class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
   InspectionController _inspectionController;
-
+  List<bool> typeVisibillity=[true,true];
+  List<String> superHeadingsSubtitle=['Where a wall of a building serves as a barrier to the pool the following shall apply. (BR 147C(a))','Where a barrier incorporates a boundary paling or similar style fence without openings.','Where a barrier fence is not a wall of a building or boundary fence, the requirements of AS 1926.1-1993 shall apply.  (BR 147C(b))'];
+  List<String> superHeadingTitle=['A Wall of a Building','A Paling or Imperforate Boundary Fence','A Barrier Fence and Gate'];
   bool filter = false;
   int headingcompleted = 0;
   String ownerland;
   bool syncdata=false;
   bool isOnline=false;
+  int _groupValue1=0;
+  int _groupValue2=0;
   ConnectionStatusSingleton connectionStatus;
 
   _InspectionHeadingListState() : super(InspectionController()) {
     _inspectionController = controller;
   }
-
+  void initializeTypeVisibility(){
+    SharedPreferences.getInstance().then((value){
+      bool type1=value.getBool('${widget.bookingid}&${1}');
+      bool type2=value.getBool('${widget.bookingid}&${2}');
+      if(type1!=null)
+        typeVisibillity[0]=type1;
+      if(type2!=null)
+        typeVisibillity[1]=type2;
+    });
+    
+  }
   Future sendQuestionAnswerOfflineData(String data) async {
 
     ProgressDialog pr;
@@ -204,6 +222,7 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
         _inspectionController.getQuestionsFilled(widget.bookingid);
 
         _inspectionController.getheadings(widget.bookingid);
+        initializeTypeVisibility();
       });
 
 
@@ -224,7 +243,7 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
         setState(() {
           print("insideoffline");
        _inspectionController.headingslist.addAll(offlinedatamodelresponse.quesionList);
-
+        initializeTypeVisibility();
         });
       });
 
@@ -258,8 +277,10 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
 
     });
   }
+  //${widget.predata['notice_registration']} regulation_id
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       key: _inspectionController.scaffoldKey,
       backgroundColor: config.Colors().scaffoldColor(1),
@@ -271,7 +292,8 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
             ),
             onPressed: () => Navigator.pop(context)), 
         title:  Text(
-          "Inspection: ${widget.predata['owner_land']}",
+          // widget.predata['notice_registration'],
+          "Inspection: ${widget.predata['owner_name']}",
           style: TextStyle(fontFamily: "AVENIRLTSTD", fontWeight: FontWeight.bold,fontSize: getFontSize(context, 4)),
         ),
         actions: <Widget>[
@@ -292,7 +314,6 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
                 });
               });
            await sendQuestionAnswerOfflineData(onOfflineValue);
-             //sync data api will go here
             },
           ):Container(),
           IconButton(
@@ -326,10 +347,10 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
 
   Widget inpsectionHeadingColumnList()
   {
+    
     return Column(
       children: <Widget>[
         Container(
-
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Card(
@@ -338,260 +359,538 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
                     padding: EdgeInsets.all(10.0),
                     child: Container(
                       color: Colors.grey[300],
-                      child: ListTile(
-                        trailing: _inspectionController.percent == null
-                            ? CircularProgressIndicator()
-                            : Text("${_inspectionController.percent.round()}%",
-                            style: TextStyle(
-                                fontSize: getFontSize(context,2),
-                                fontFamily: "AVENIRLTSTD",
-                                color: Color(0xff222222))),
-                        title: Text(
-                          _inspectionController.headingslist[0]
-                          ['regulation_name'],
-                          style: TextStyle(
-                              fontSize: getFontSize(context,0),
-                              fontFamily: "AVENIRLTSTD",
-                              color: Color(0xff222222)),
-                        ),
-                        subtitle:  GestureDetector(
-                            onTap: ()
-                            {
-
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  // return object of type Dialog
-                                  return StatefulBuilder(
-                                      builder: (context, setState) {
-                                        return  SingleChildScrollView(
-                                            child:AlertDialog(
-
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  Align(
-
-                                                    child: GestureDetector(
-
-                                                      onTap: ()
-                                                      {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: Icon(Icons.clear,color: Colors.grey,),
-                                                    ),
-                                                    alignment: Alignment.topRight,
-                                                  ),
-                                                  SizedBox(height: 10,),
-                                                  Flexible(child:
-                                                  SingleChildScrollView(
-                                                      child: Text(
-                                                        _inspectionController.headingslist[0]
-                                                        ['regulation_description'].toString(),
-                                                        style: TextStyle(
-                                                            fontFamily: "AVENIRLTSTD",
-                                                            color: Colors.black,
-                                                            fontSize: getFontSize(context,0)),
-
-
-                                                      )
-                                                  )
-                                                  ),
-
-
-
-                                                ],
-                                              ),
-                                            )
-                                        );
-                                      }
-                                  );
-
-                                },
-                              );
-
-
-
-
-
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
-                              child: Text(
-
-                                "More Info.",
-                                textAlign: TextAlign.left,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            trailing: _inspectionController.percent == null
+                                ? CircularProgressIndicator()
+                                : Text("${_inspectionController.percent.round()}%",
                                 style: TextStyle(
-
-                                    fontSize: getFontSize(context,0),
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: getFontSize(context,2),
                                     fontFamily: "AVENIRLTSTD",
-                                    color: Colors.blueAccent),
+                                    color: Color(0xff222222))),
+                            title: Text(
+                              _inspectionController.headingslist[0]
+                              ['regulation_name'],
+                              style: TextStyle(
+                                  fontSize: getFontSize(context,0),
+                                  fontFamily: "AVENIRLTSTD",
+                                  color: Color(0xff222222)),
+                            ),
+                            subtitle:  GestureDetector(
+                                onTap: ()
+                                {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return  SingleChildScrollView(
+                                                child:AlertDialog(
 
+                                                  content: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Align(
+                                                        
+                                                        child: GestureDetector(
+
+                                                          onTap: ()
+                                                          {
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                          child: Icon(Icons.clear,color: Colors.grey,),
+                                                        ),
+                                                        alignment: Alignment.topRight,
+                                                      ),
+                                                      SizedBox(height: 10,),
+                                                      Flexible(child:
+                                                      SingleChildScrollView(
+                                                          child: Text(
+                                                            _inspectionController.headingslist[0]
+                                                            ['regulation_description'].toString(),
+                                                            style: TextStyle(
+                                                                fontFamily: "AVENIRLTSTD",
+                                                                color: Colors.black,
+                                                                fontSize: getFontSize(context,0)),
+                                                          )
+                                                      )
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                            );
+                                          }
+                                      );
+
+                                    },
+                                  );
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                                  child: Text(
+
+                                    "More Info.",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+
+                                        fontSize: getFontSize(context,0),
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: "AVENIRLTSTD",
+                                        color: Colors.blueAccent),
+
+                                  ),
+                                )
+                            ),
+
+                          ),
+                          if(widget.predata['notice_registration']=='2')
+                           ListTile(title:Padding(
+                              padding:
+                              EdgeInsets.only(top: 4.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                   'Barrier Fences WALLS, Gates, & WINDOWS'.toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: getFontSize(context,-2),
+                                        fontFamily: "AVENIRLTSTD",
+                                        color: Color(0xff000000)),
+                                        textAlign: TextAlign.start,
+                                  ),
+                                ],
                               ),
-                            )
-                        ),
-
+                            ),
+                            subtitle:  Text(
+                               'Note: One or more of the following barriers must be in place to restrict access to the pool/spa area.',
+                                style: TextStyle(
+                                    fontSize: getFontSize(context,-3),
+                                    fontFamily: "AVENIRLTSTD",
+                                    color: Colors.black54
+                                    
+                                    ),textAlign: TextAlign.start,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   )),
             )),
+            // if(widget.predata['notice_registration']=='4')
+            // Padding(
+            //    padding: EdgeInsets.all(8.0),
+            //    child: Card(
+            //  elevation: 1,
+                 
+            //     //  color: config.Colors().scaffoldColor(1),
+            //      child: ListTile(title:Padding(
+            //                   padding:
+            //                   EdgeInsets.only(top: 4.0),
+            //                   child: Column(
+            //                     children: [
+            //                       Text(
+            //                        'ABOVE GROUND SWIMMING POOL OR SPA (Including Inflatable Pools)'.toUpperCase(),
+            //                         style: TextStyle(
+            //                             fontSize: getFontSize(context,-2),
+            //                             fontFamily: "AVENIRLTSTD",
+            //                             color: Color(0xff000000)),
+            //                             textAlign: TextAlign.start,
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //                 subtitle:  Text(
+            //                    'Note: One or more of the following barriers must be in place to restrict access to the pool/spa area.',
+            //                     style: TextStyle(
+            //                         fontSize: getFontSize(context,-3),
+            //                         fontFamily: "AVENIRLTSTD",
+            //                         color: Colors.black54
+                                    
+            //                         ),textAlign: TextAlign.start,
+            //                   ),
+            //                 ),),
+            // ),
+            widget.predata['notice_registration']=='2'?
+            
+            Expanded(flex: 12,
+          child: 
+          ListView.builder(
+            itemCount: 3,
+            itemBuilder: (context, index)
+          {
+            return Column(
+              children: [
+                Padding(
+                   padding: EdgeInsets.all(8.0),
+                   child: Card(
+                     elevation: 0,
+                     color: config.Colors().scaffoldColor(1),
+                     child: ListTile(title:Padding(
+                                  padding:
+                                  EdgeInsets.only(top: 4.0),
+                                  child: Text(
+                                   superHeadingTitle[index].toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: getFontSize(context,-2),
+                                        fontFamily: "AVENIRLTSTD",
+                                        color: Color(0xff000000)),
+                                  ),
+                                ),
+                                subtitle:  Column(
+                                  children: [
+                                    Text(
+                                       superHeadingsSubtitle[index],
+                                        style: TextStyle(
+                                            fontSize: getFontSize(context,-3),
+                                            fontFamily: "AVENIRLTSTD",
+                                            color: Colors.black54,
+                                      ),
+                                    ),
+                                    if(index!=2)
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                       children: [
+                                       Row(
+                                         children: [
+                                           Radio(value: typeVisibillity[index]?1:2, groupValue: 1, onChanged: (value)async{
+                                             ProgressDialog pr;
+                                              pr = new ProgressDialog(context);
+                                             
+                                            submitApplicableNotApplicable(index+1,true,pr).then((value){
+                                              pr.hide();
+                                              if(value){
+                                                setState(() {
+                                               typeVisibillity[index]=true;
+                                             });
+                                              }
+                                              });
+                                           }),
+                                           Text('Applicable',
+                                         style: TextStyle(fontSize: getFontSize(context,-2),fontFamily: "AVENIRLTSTD",fontWeight: FontWeight.bold)
+                                       ),
+                                         ],
+                                       ),
+                                       
+                                       Row(
+                                         children: [
+                                           Radio(value: !typeVisibillity[index]?1:2,groupValue: 1, onChanged: (value)async{
+                                             ProgressDialog pr;
+                                              pr = new ProgressDialog(context);
+                                             
+                                            submitApplicableNotApplicable(index+1,false,pr).then((value){
+                                              pr.hide();
+                                              if(value){
+                                                setState(() {
+                                               typeVisibillity[index]=false;
+                                             });
+                                              }
+                                              });
+                                           }),
+                                           Text('Not Applicable',
+                                         style: TextStyle(fontSize: getFontSize(context,-2),fontFamily: "AVENIRLTSTD",fontWeight: FontWeight.bold)
+                                       ),
+                                         ],
+                                       ),
+                                       
+                                     ],)
+                                  ],
+                                ),),
+                )),
+                
+                Visibility(
+                  visible: index!=2?typeVisibillity[index]:true,
+                  child: Column(
+                   children: [
+                     for(var heading in _inspectionController.headingslist)
+                     if(heading['heading_type']==index+1)
+                     Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Container(
+
+                            child: ListTile(
+                                trailing: heading
+                                ['is_completed'] ==
+                                    0
+                                    ? Text("")
+                                    : Icon(
+                                  Icons.check,
+                                  color: Theme.of(context)
+                                      .accentColor,
+                                ),
+
+                                title: Padding(
+                                  padding:
+                                  const EdgeInsets.only(top: 4.0),
+                                  child: Text(
+                                    heading
+                                    ['regulation_name'],
+                                    style: TextStyle(
+                                        fontSize: getFontSize(context,-3),
+                                        fontFamily: "AVENIRLTSTD",
+                                        color: Color(0xffaeaeae)),
+                                  ),
+                                ),
+                                subtitle:  Padding(
+                                    padding:
+                                     EdgeInsets.only(top: 8.0,bottom: 8.0),
+                                    child:Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+
+                                          heading
+                                          ['heading_name'],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: getFontSize(context,0),
+                                              fontFamily: "AVENIRLTSTD",
+                                              color: Color(0xff222222)),
+                                        ),
+                                        heading['heading_description']==""?Container():GestureDetector(
+                                            onTap: ()
+                                            {
+
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return StatefulBuilder(
+                                                      builder: (context, setState) {
+                                                        return  SingleChildScrollView(
+                                                            child:AlertDialog(
+
+                                                              content: Column(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                children: <Widget>[
+                                                                  Align(
+                                                                    child: GestureDetector(
+                                                                      onTap: ()
+                                                                      {
+                                                                        Navigator.of(context).pop();
+                                                                      },
+                                                                      child: Icon(Icons.clear,color: Colors.grey,),
+                                                                    ),
+                                                                    alignment: Alignment.topRight,
+                                                                  ),
+                                                                  SizedBox(height: 10,),
+                                                                  SizedBox(height: 10,),
+                                                                  Flexible(child:
+                                                                  SingleChildScrollView(
+                                                                      child: Text(
+                                                                        heading
+                                                                        ['heading_description'].toString(),
+                                                                        style: TextStyle(
+                                                                            fontFamily: "AVENIRLTSTD",
+                                                                            color: Colors.black,
+                                                                            fontSize: getFontSize(context,0)),
+
+
+                                                                      )
+                                                                  )
+                                                                  ),
+
+
+
+                                                                ],
+                                                              ),
+                                                            )
+                                                        );
+                                                      }
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                              child: Text(
+                                                "More Info.",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: getFontSize(context,0),
+                                                    fontWeight: FontWeight.w700,
+                                                    fontFamily: "AVENIRLTSTD",
+                                                    color: Colors.blueAccent),
+                                              ),
+                                            )
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                onTap: () async {
+                                  bool abc = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              InspectionQuestionList(
+                                                heading
+                                                ['heading_id'],
+                                                widget.bookingid,
+                                                widget.predata['id'],
+                                              )));
+                                  if (abc) {
+                                   await checkingInternet();
+                                  }
+
+                                }
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                   ], 
+                  )
+                )
+              ],
+            );
+          })
+        )
+            :
         Expanded(flex: 12,
           child: ListView.builder(
               itemCount: _inspectionController.headingslist.length,
               itemBuilder: (context, i) {
-               
+               print(_inspectionController.headingslist[i]
+                                ['regulation_name']=='BUILDING REGULATIONS - 2018  (Part 9ADivision 2)');
+                return Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Container(
 
-                return Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Container(
+                            child: ListTile(
+                                trailing: _inspectionController.headingslist[i]
+                                ['is_completed'] ==
+                                    0
+                                    ? Text("")
+                                    : Icon(
+                                  Icons.check,
+                                  color: Theme.of(context)
+                                      .accentColor,
+                                ),
 
-                        child: ListTile(
-                            trailing: _inspectionController.headingslist[i]
-                            ['is_completed'] ==
-                                0
-                                ? Text("")
-                                : Icon(
-                              Icons.check,
-                              color: Theme.of(context)
-                                  .accentColor,
-                            ),
+                                title: Padding(
+                                  padding:
+                                  const EdgeInsets.only(top: 4.0),
+                                  child: Text(
+                                    _inspectionController.headingslist[i]
+                                    ['regulation_name'],
+                                    style: TextStyle(
+                                        fontSize: getFontSize(context,-3),
+                                        fontFamily: "AVENIRLTSTD",
+                                        color: Color(0xffaeaeae)),
+                                  ),
+                                ),
+                                subtitle:  Padding(
+                                    padding:
+                                     EdgeInsets.only(top: 8.0,bottom: 8.0),
+                                    child:Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          _inspectionController.headingslist[i]
+                                          ['heading_name'],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: getFontSize(context,0),
+                                              fontFamily: "AVENIRLTSTD",
+                                              color: Color(0xff222222)),
+                                        ),
+                                        _inspectionController.headingslist[i]['heading_description']==""?Container():GestureDetector(
+                                            onTap: ()
+                                            {
 
-                            title: Padding(
-                              padding:
-                              const EdgeInsets.only(top: 4.0),
-                              child: Text(
-                                _inspectionController.headingslist[i]
-                                ['regulation_name'],
-                                style: TextStyle(
-                                    fontSize: getFontSize(context,-3),
-                                    fontFamily: "AVENIRLTSTD",
-                                    color: Color(0xffaeaeae)),
-                              ),
-                            ),
-                            subtitle:  Padding(
-                                padding:
-                                const EdgeInsets.only(top: 8.0,bottom: 8.0),
-                                child:Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return StatefulBuilder(
+                                                      builder: (context, setState) {
+                                                        return  SingleChildScrollView(
+                                                            child:AlertDialog(
 
-                                      _inspectionController.headingslist[i]
-                                      ['heading_name'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: getFontSize(context,0),
-                                          fontFamily: "AVENIRLTSTD",
-                                          color: Color(0xff222222)),
-                                    ),
-                                    _inspectionController.headingslist[i]['heading_description']==""?Container():GestureDetector(
-                                        onTap: ()
-                                        {
-
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              // return object of type Dialog
-                                              return StatefulBuilder(
-
-                                                  builder: (context, setState) {
-                                                    return  SingleChildScrollView(
-                                                        child:AlertDialog(
-
-                                                          content: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            children: <Widget>[
-                                                              Align(
-
-                                                                child: GestureDetector(
-
-                                                                  onTap: ()
-                                                                  {
-                                                                    Navigator.of(context).pop();
-                                                                  },
-                                                                  child: Icon(Icons.clear,color: Colors.grey,),
-                                                                ),
-                                                                alignment: Alignment.topRight,
-                                                              ),
-                                                              SizedBox(height: 10,),
-                                                              SizedBox(height: 10,),
-                                                              Flexible(child:
-                                                              SingleChildScrollView(
-                                                                  child: Text(
-                                                                    _inspectionController.headingslist[i]
-                                                                    ['heading_description'].toString(),
-                                                                    style: TextStyle(
-                                                                        fontFamily: "AVENIRLTSTD",
-                                                                        color: Colors.black,
-                                                                        fontSize: getFontSize(context,0)),
+                                                              content: Column(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                children: <Widget>[
+                                                                  Align(
+                                                                    child: GestureDetector(
+                                                                      onTap: ()
+                                                                      {
+                                                                        Navigator.of(context).pop();
+                                                                      },
+                                                                      child: Icon(Icons.clear,color: Colors.grey,),
+                                                                    ),
+                                                                    alignment: Alignment.topRight,
+                                                                  ),
+                                                                  SizedBox(height: 10,),
+                                                                  SizedBox(height: 10,),
+                                                                  Flexible(child:
+                                                                  SingleChildScrollView(
+                                                                      child: Text(
+                                                                        _inspectionController.headingslist[i]
+                                                                        ['heading_description'].toString(),
+                                                                        style: TextStyle(
+                                                                            fontFamily: "AVENIRLTSTD",
+                                                                            color: Colors.black,
+                                                                            fontSize: getFontSize(context,0)),
 
 
+                                                                      )
                                                                   )
-                                                              )
+                                                                  ),
+
+
+
+                                                                ],
                                                               ),
-
-
-
-                                                            ],
-                                                          ),
-                                                        )
-                                                    );
-                                                  }
+                                                            )
+                                                        );
+                                                      }
+                                                  );
+                                                },
                                               );
-
                                             },
-                                          );
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                              child: Text(
+                                                "More Info.",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontSize: getFontSize(context,0),
+                                                    fontWeight: FontWeight.w700,
+                                                    fontFamily: "AVENIRLTSTD",
+                                                    color: Colors.blueAccent),
+                                              ),
+                                            )
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                onTap: () async {
+                                  bool abc = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              InspectionQuestionList(
+                                                _inspectionController.headingslist[i]
+                                                ['heading_id'],
+                                                widget.bookingid,
+                                                widget.predata['id'],
+                                              )));
+                                  if (abc) {
+                                   await checkingInternet();
+                                  }
 
-
-
-
-
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                          child: Text(
-
-                                            "More Info.",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-
-                                                fontSize: getFontSize(context,0),
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: "AVENIRLTSTD",
-                                                color: Colors.blueAccent),
-
-                                          ),
-                                        )
-                                    ),
-                                  ],
-                                )
+                                }
                             ),
-
-
-                            onTap: () async {
-                              bool abc = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          InspectionQuestionList(
-                                            _inspectionController.headingslist[i]
-                                            ['heading_id'],
-                                            widget.bookingid,
-                                            widget.predata['id'],
-                                          )));
-                              if (abc) {
-                               await checkingInternet();
-                              }
-
-                            }
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 );
 
               }),
@@ -599,6 +898,72 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
 
       ],
     );
+  }
+
+  Future<bool> submitApplicableNotApplicable(int headingTypeNumber,bool isApplicable,ProgressDialog pr) async{
+    
+    pr.show();
+    final String _apiToken = 'beedev';
+    
+         try {
+    final response = await Dio().post('$publicBaseUrl$_apiToken/regulation_type_post',
+        data: FormData.fromMap(
+                                            {
+                                              'booking_id':'${widget.bookingid}',
+                                              'heading_type':'$headingTypeNumber',
+                                              'is_applicable':isApplicable, //boolean value
+                                            }
+                                          ),
+        options: Options(headers: {
+          "Accept": "application/json",
+          // 'Authorization': 'Bearer $authToken',
+        }));
+     print("Applicable/NotApplicable response:"+response.data.toString());
+     if(response.statusCode==200)
+      {
+        SharedPreferences prefs=await SharedPreferences.getInstance();
+          prefs.setBool('${widget.bookingid}&$headingTypeNumber', isApplicable);
+          if(prefs.getBool('${widget.bookingid}&$headingTypeNumber')!=null)
+            return true;
+        }
+  }   on DioError catch (e) {
+    pr.hide();
+    if (e.type == DioErrorType.CONNECT_TIMEOUT) {
+      Fluttertoast.showToast(
+          msg: "Connection Timeout",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: getFontSize(context,-2)
+      );
+    }
+    if (e.type == DioErrorType.DEFAULT) {
+      Fluttertoast.showToast(
+          msg: "Device is Offline",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: getFontSize(context,-2)
+      );
+    }
+    if (e.type == DioErrorType.RESPONSE) {
+      Fluttertoast.showToast(
+          msg: "Something Went Worg. Please Try again",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: getFontSize(context,-2)
+      );
+    }
+    return false;
+  }
+     
   }
 
   Future<String> get _localPath async {

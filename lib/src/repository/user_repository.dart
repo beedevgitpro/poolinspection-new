@@ -157,7 +157,7 @@ Future registerInspector(SignUpUser fields,context) async {
     }
     if (e.type == DioErrorType.RESPONSE) {
       Fluttertoast.showToast(
-          msg: "Wrong Response From Backend",
+          msg: "Error:",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
