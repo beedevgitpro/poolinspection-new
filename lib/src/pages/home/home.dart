@@ -703,7 +703,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               ||(selectedDate!=null&&selectedDate!=bookingDate)
               ||(ownerAddress.isNotEmpty&&!(data[index]['owner_address']??data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']).toLowerCase().contains(ownerAddress.toLowerCase()))
               ||(jobNo.isNotEmpty&&!data[index]['id'].toLowerCase().contains(jobNo.toLowerCase()))
-              ||(inspectionType!=null&&data[index]['inspection_type'].toString()!=inspectionType.toString()))
+              ||(inspectionType!=null&&(data[index]['inspection_type']??(data[index]['is_reinspection']==1?'Re-Inspection':'First Inspection')).toString()!=inspectionType.toString()))
                                         return Container();
                   return  InkWell(
                       onTap: () {
@@ -949,7 +949,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                         borderRadius:
                                              BorderRadius.circular(5.0)),
                                     child: Text(
-                                      data[index]['is_confirm'] == 1?"Booking Confirmed".toUpperCase():"Booking Not Confirmed".toUpperCase(),
+                                      data[index]['is_confirm'] == 1?"Booking Confirmed".toUpperCase():"Not Confirmed".toUpperCase(),
                                       style: TextStyle(
                                           fontSize: getFontSize(context,-5),
                                           color: Color(0xffFFFFFF),
@@ -970,7 +970,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                                color: Theme.of(context).accentColor,
                                              )),
                                     child: Text(
-                                      data[index]['inspection_type'].toUpperCase(),
+                                      '${data[index]['inspection_type']??(data[index]['is_reinspection']==1?'Re-Inspection':'First Inspection')}'.toUpperCase(),
                                       style: TextStyle(
                                           fontSize: getFontSize(context,-5),
                                           color: Theme.of(context).accentColor,
@@ -1043,7 +1043,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               ||(selectedDate!=null&&selectedDate!=bookingDate)
               ||(ownerAddress.isNotEmpty&&!(data[index]['owner_address']??data[index]['street_road']+" "+data[index]['postcode']+" "+data[index]['city_suburb']).toLowerCase().contains(ownerAddress.toLowerCase()))
               ||(jobNo.isNotEmpty&&!data[index]['id'].toLowerCase().contains(jobNo.toLowerCase()))
-              ||(inspectionType!=null&&data[index]['inspection_type'].toString()!=inspectionType.toString()))
+              ||(inspectionType!=null&&(data[index]['inspection_type']??(data[index]['is_reinspection']==1?'Re-Inspection':'First Inspection')).toString()!=inspectionType.toString()))
                                         return Container();
         return  InkWell(
                 onTap: () => data[index]['is_compliant'] == 3 ||
@@ -1100,7 +1100,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                     ),
                                   )
                                 ]),
-                            padding: const EdgeInsets.all(4.0),
+                            padding:  EdgeInsets.all(4.0),
                           ),
                           Padding(
                             child: Row(
@@ -1128,7 +1128,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                         fontWeight: FontWeight.normal),
                                   ),
                                 ]),
-                            padding: const EdgeInsets.all(4.0),
+                            padding:  EdgeInsets.all(4.0),
                           ),
                           Padding(
                             child: Row(
@@ -1203,7 +1203,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                                color: Theme.of(context).accentColor,
                                              )),
                                     child: Text(
-                                      '${data[index]['inspection_type']}'.toUpperCase(),
+                                      '${data[index]['inspection_type']??(data[index]['is_reinspection']==1?'Re-Inspection':'First Inspection')}'.toUpperCase(),
                                       style: TextStyle(
                                           fontSize: getFontSize(context,-5),
                                           color: Theme.of(context).accentColor,

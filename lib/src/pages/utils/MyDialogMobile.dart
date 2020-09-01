@@ -127,7 +127,7 @@ class _MyDialogMobileState extends State<MyDialogMobile> {
                             textInputAction: TextInputAction.done,
                             validator: (text) {
                               if (text == null || text.isEmpty ||text.trim().isEmpty) {
-                                return 'Text is empty';
+                                return 'Please Enter your Comments';
                               }
                               return null;
                             },

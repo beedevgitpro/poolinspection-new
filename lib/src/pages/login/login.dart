@@ -27,6 +27,13 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
   @override
   void initState() {
     super.initState();
+    Connectivity().checkConnectivity().then((result){
+      setState(() {
+        if (result == ConnectivityResult.none)_isConnected=false;
+    else _isConnected=true;
+       });
+       print(_isConnected);
+  });
     subscription=Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       setState(() {
         if (result == ConnectivityResult.none)_isConnected=false;

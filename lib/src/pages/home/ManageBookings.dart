@@ -275,8 +275,7 @@ class _ManageBookingWidgetState extends StateMVC<ManageBookingWidget> {
                                               padding: const EdgeInsets.all(2.0),
                                             ) ,
                                             Padding(
-                                              padding: new EdgeInsets.fromLTRB(4,4, 4,4), child:Card(
-                                              
+                                              padding: EdgeInsets.fromLTRB(4,4, 4,4), child:Card(
                                               color:data[index]['certificate_generated_data']==null?Colors.amber[600]:Color(0xff20c67e),
                                               shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0)),
                                               child:Padding(

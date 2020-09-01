@@ -47,6 +47,13 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
   @override
   void initState() {
     super.initState();
+    Connectivity().checkConnectivity().then((result){
+      setState(() {
+        if (result == ConnectivityResult.none)_isConnected=false;
+    else _isConnected=true;
+       });
+       print(_isConnected);
+  });
      Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       setState(() {
         if (result == ConnectivityResult.none)_isConnected=false;
@@ -58,7 +65,6 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
   @override
   void dispose() {
     super.dispose();
-    
   }
 
   @override

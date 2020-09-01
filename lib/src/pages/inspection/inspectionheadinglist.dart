@@ -576,7 +576,6 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
                                            Radio(value: !typeVisibillity[index]?1:2,groupValue: 1, onChanged: (value)async{
                                              ProgressDialog pr;
                                               pr = new ProgressDialog(context);
-                                             
                                             submitApplicableNotApplicable(index+1,false,pr).then((value){
                                               pr.hide();
                                               if(value){
@@ -906,14 +905,16 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
     final String _apiToken = 'beedev';
     
          try {
+           print('booking_id:\'${widget.bookingid}\', heading_type:\'$headingTypeNumber\', is_applicable:\'$isApplicable\',');
     final response = await Dio().post('$publicBaseUrl$_apiToken/regulation_type_post',
         data: FormData.fromMap(
                                             {
                                               'booking_id':'${widget.bookingid}',
                                               'heading_type':'$headingTypeNumber',
-                                              'is_applicable':isApplicable, //boolean value
+                                              'is_applicable':isApplicable.toString()//boolean value
                                             }
                                           ),
+                                
         options: Options(headers: {
           "Accept": "application/json",
           // 'Authorization': 'Bearer $authToken',
@@ -921,6 +922,7 @@ class _InspectionHeadingListState extends StateMVC<InspectionHeadingList> {
      print("Applicable/NotApplicable response:"+response.data.toString());
      if(response.statusCode==200)
       {
+        refreshId();
         SharedPreferences prefs=await SharedPreferences.getInstance();
           prefs.setBool('${widget.bookingid}&$headingTypeNumber', isApplicable);
           if(prefs.getBool('${widget.bookingid}&$headingTypeNumber')!=null)
