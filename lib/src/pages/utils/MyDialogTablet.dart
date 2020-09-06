@@ -146,22 +146,18 @@ class _MyDialogTabletState extends State<MyDialogTablet> {
                                     color: Color(0xfffffff)
                                 ),
                               ),
-// and:
-
                               hintText: "Enter Comments",
                               hintStyle: TextStyle(
                                 fontSize: getFontSize(context,2),
                                 color: Color(0xff999999),
                                 fontFamily: "AVENIRLTSTD",
                               ),
-// labelText: 'Enter the Value',
                               errorText: _inspectionController.validate
                                   ? 'Value Can\'t Be Empty'
                                   : null,
                             ),
                             onChanged: (abc) => _inspectionController.data.comment = abc,
                             onFieldSubmitted: (abc) => _inspectionController.data.comment = abc,
-// onEditingComplete: ()=>print(abc),
 
                             maxLines: 20,
                           ),

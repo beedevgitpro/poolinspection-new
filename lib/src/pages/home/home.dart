@@ -195,7 +195,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
       });
     }
   }
-
   void connectionChanged(dynamic hasConnection) {
     setState(() {
       connectionStatus.checkConnection().then((val) {
@@ -212,7 +211,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   Future<Timer> loadDataDash() async {
     return new Timer(Duration(seconds: 0), callDash);
   }
-
   onDoneLoading() async {
     refreshId();
   }
@@ -309,7 +307,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               children: <Widget>[
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:6.0),
+                      padding:  EdgeInsets.symmetric(horizontal:6.0),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -505,7 +503,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                     fontFamily: "AVENIRLTSD",
                                     color: Colors.black),
                               ),
-                                                        ),
+                              ),
                             ),
                           ),
                         )
@@ -590,7 +588,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                         FlatButton(
                             color: Colors.grey,
                             onPressed: () {
-                              filtered=false;setState(() {selectedDate=null;ownerAddress=null;ownerName=null;inspectionType=null;});
+                              filtered=false;setState(() {selectedDate=null;ownerAddress='';ownerName='';inspectionType=null;});
                             },
                             child: Text(
                               'Reset',
